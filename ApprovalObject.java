@@ -1,3 +1,5 @@
+// To utilize the Approval screen, click the Approval button to access it, review the displayed information, and either approve or reject the task, triggering respective confirmation windows, and optionally add notes before saving changes or canceling, and then proceed to the next task by clicking the Next button.
+
 package org.openjfx;
 
 import javafx.application.Application;
