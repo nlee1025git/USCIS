@@ -113,7 +113,7 @@ public class ApprovalObject extends Application{
 		grid.add(pPhoneNumber, 1, 7);
 		
 		
-		Label pEmailLabel = new Label("Last Name: ");
+		Label pEmailLabel = new Label("Email: ");
 		pEmailLabel.setFont(Font.font(STYLESHEET_CASPIAN, FontWeight.BOLD, 14));
 		grid.add(pEmailLabel, 0, 8);
 		Text pEmail = new Text(this.bo.getEmail());
