@@ -118,7 +118,7 @@ public class DataEntryObject extends Application{
 		grid.add(pPhoneNumberInput, 1, 7);
 		
 		
-		Label pEmailLabel = new Label("Last Name: ");
+		Label pEmailLabel = new Label("Email: ");
 		pEmailLabel.setFont(Font.font(STYLESHEET_CASPIAN, FontWeight.BOLD, 14));
 		grid.add(pEmailLabel, 0, 8);
 		TextField pEmailInput = new TextField();
