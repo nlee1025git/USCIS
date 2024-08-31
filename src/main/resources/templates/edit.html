@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Review</title>
+  <link rel="stylesheet" href="/css/edit.css">
+  <style>
+    .job {
+        background: [[${job}]];
+    }
+
+    .wage {
+        background: [[${wage}]];
+    }
+
+    .qualification {
+        background: [[${qualification}]];
+    }
+
+    .record {
+        background: [[${record}]];
+    }
+  </style>
+</head>
+
+<body>
+<div style="text-align: center">
+  <h3 style="display: inline-block">Petition for a Nonimmigrant Worker<span style="padding-right: 30px"></span></h3>
+  <h3 style="display: inline-block">USCIS Form I-129</h3>
+  <h3>Review Petition</h3>
+</div><br><br>
+
+<div style="text-align: center">
+  <div style="text-align: left; display: inline-block; margin-left: 25px">
+    <p style="font-weight: bold" th:text="'Application ID: EAC2090' + ${visaApplication.applicationId}"></p>
+    <p style="font-weight: bold" th:text="'Application Date: ' + ${visaApplication.applicationDate}"></p>
+  </div>
+</div>
+
+<div style="text-align: center">
+  <p style="text-align: center; margin: 4px"><strong>Petitioner Information</strong></p>
+  <div style="text-align: left; padding-left: 75px; display: inline-block; margin-left: 25px">
+    <p th:text="'Petitioner\'s Last Name: ' + ${petitioner.last}"></p>
+    <p th:text="'Petitioner\'s First Name: ' + ${petitioner.first}"></p>
+    <p th:text="'Petitioner\'s Middle Name: ' + ${petitioner.middle}"></p>
+    <p th:text="'Petitioner\'s Company Name: ' + ${petitioner.companyName}"></p>
+    <p th:text="'Petitioner\'s Address: ' + ${petitioner.address}"></p>
+    <p th:text="'Petitioner\'s Number: ' + ${petitioner.number}"></p>
+    <p th:text="'Petitioner\'s City: ' + ${petitioner.city}"></p>
+    <p th:text="'Petitioner\'s State: ' + ${petitioner.state}"></p>
+    <p th:text="'Petitioner\'s Zipcode: ' + ${petitioner.zipcode}"></p>
+    <p th:text="'Petitioner\'s Phone Number: ' + ${petitioner.phoneNumber}"></p>
+    <p th:text="'Petitioner\'s Email: ' + ${petitioner.email}"></p>
+    <p th:text="'Petitioner\'s FEIN: ' + ${petitioner.fein}"></p>
+  </div>
+</div><br><br>
+
+<div style="text-align: center">
+  <p style="text-align: center; margin: 4px"><strong>Beneficiary Information</strong></p>
+  <div style="text-align: left; padding-left: 50px; display: inline-block; margin-left: 25px">
+    <p th:text="'Beneficiary\'s Last Name: ' + ${beneficiary.lastName}"></p>
+    <p th:text="'Beneficiary\'s First Name: ' + ${beneficiary.firstName}"></p>
+    <p th:text="'Beneficiary\'s Middle Name: ' + ${beneficiary.middleName}"></p>
+    <p th:text="'Beneficiary\'s Date of birth: ' + ${beneficiary.DOB}"></p>
+    <p th:text="'Beneficiary\'s Gender: ' + ${beneficiary.gender}"></p>
+    <p th:text="'Beneficiary\'s Country: ' + ${beneficiary.country}"></p>
+    <p th:text="'Beneficiary\'s Passport Number: ' + ${beneficiary.passportNumber}"></p>
+    <p th:text="'Beneficiary\'s Education: ' + ${beneficiary.education}"></p>
+  </div>
+</div><br><br>
+
+<div style="text-align: center">
+  <p style="text-align: center; margin: 4px"><strong>Basic Information</strong></p>
+  <div style="text-align: left; padding-left: 5px; display: inline-block; margin-left: 25px">
+    <p th:text="'Job Title: ' + ${visaApplication.jobTitle}"></p>
+    <p th:text="'Wage: $' + ${visaApplication.wage} + ' per year'"></p>
+    <p th:text="'From: ' + ${visaApplication.fromDate}"></p>
+    <p th:text="'To: ' + ${visaApplication.toDate}"></p>
+  </div>
+</div><br><br>
+
+<div style="text-align: center">
+  <p style="text-align: center; margin: 4px"><strong>Background Check Score</strong></p>
+  <div style="text-align: left; padding-left: 5px; display: inline-block; margin-left: 25px">
+    <p th:text="'Job Title Verification: ' + ${backgroundCheck.jobTitleVerification} + ' (20%)'"></p>
+    <p th:text="'Wage Compliance: ' + ${backgroundCheck.wageCompliance} + ' (15%)'"></p>
+    <p th:text="'Beneficiary Qualification: ' + ${backgroundCheck.beneficiaryQualification} + ' (30%)'"></p>
+    <p th:text="'Criminal Record: ' + ${backgroundCheck.criminalRecord} + ' (35%)'"></p>
+    <p th:text="'Total Normalized Score: ' + ${normalize} + ' / 10'"></p>
+    <p th:text="'Minimum Normalized Score: 2.5 / 10'"></p>
+  </div><br>
+
+  <div class="container">
+    <div class="common job"></div>
+    <div class="common wage"></div>
+    <div class="common qualification"></div>
+    <div class="common record"></div>
+  </div>
+
+  <div id="detail" class="job-detail">
+    <div th:each="b : ${ben}">
+      <div th:text="${b.getLastName()}"></div>
+    </div>
+    <div th:each="job : ${jobs}">
+      <div job-id="${job.application_id}" th:text="${job.jobTitleVerification}"></div>
+    </div>
+  </div>
+
+  <div class="gradient-bar">
+    <div class="arrow"></div>
+  </div><br>
+
+  <p><a th:href="@{'/editForm?id=' + ${visaApplication.applicationId}}"><button>Edit</button></a></p>
+</div>
+
+<div style="display: flex; justify-content: center; align-items: center;">
+  <form th:action="@{/confirm}" method="post">
+    <input type="text" id="id" name="id" th:value="${visaApplication.applicationId}" hidden>
+    <button type="submit">Confirm</button>
+  </form>
+
+  <span style="padding-right: 20px"></span>
+  <form th:action="@{/reject}" method="post">
+    <input type="text" id="reject_id" name="reject_id" th:value="${visaApplication.applicationId}" hidden>
+    <button type="submit">Reject</button>
+  </form>
+
+  <span style="padding-right: 20px"></span>
+  <form th:action="@{/reviewSearch}" method="get">
+    <button type="submit">Cancel</button>
+  </form>
+</div><br>
+
+<div style="display: flex; justify-content: center; align-items: center;">
+  <a href="/"><button type="submit">Main Menu</button></a>
+</div><br>
+
+<script src="/js/edit.js"></script>
+</body>
+</html>

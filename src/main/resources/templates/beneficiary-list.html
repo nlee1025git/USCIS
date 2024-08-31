@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>List</title>
+</head>
+<body>
+    <div>
+      <div>
+        <table>
+          <thead>
+          <tr>
+            <th>#</th>
+            <th>Name</th>
+            <th>Address</th>
+          </tr>
+          </thead>
+
+          <tbody>
+          <tr th:each="beneficiary : ${beneficiaryList}">
+            <td th:text="${beneficiary.id}"></td>
+            <td th:text="${beneficiary.name}"></td>
+            <td th:text="${beneficiary.address}"></td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+</body>
+</html>

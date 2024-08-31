@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Review</title>
+</head>
+<body>
+<div style="text-align: center">
+    <h3 style="display: inline-block">Petition for a Nonimmigrant Worker<span style="padding-right: 30px"></span></h3>
+    <h3 style="display: inline-block">USCIS Form I-129</h3>
+    <h3>Review Petition</h3>
+</div>
+
+<div style="display: flex; justify-content: center; align-items: center;">
+    <form th:action="@{/updateUser}" method="post">
+        <input type="hidden" name="id" th:value="${visaApplication.applicationId}">
+        <input type="hidden" name="applicationDate" th:value="${visaApplication.applicationDate}">
+        <p style="font-weight: bold; text-align: left; margin-left: 90px" th:text="'Application ID: EAC2090' + ${visaApplication.applicationId}"></p>
+        <p style="font-weight: bold; text-align: left; margin-left: 90px" th:text="'Application Date: ' + ${visaApplication.applicationDate}"></p>
+        <br>
+
+        <p style="text-align: center; margin: 4px"><strong>Petitioner Information</strong></p>
+        <div style="text-align: left; padding-left: 20px; display: inline-block; margin-left: 25px">
+            <p>
+                <label>Petitioner's Last Name: </label>
+                <input type="text" th:value="${petitioner.last}" id="last" name="last" required>
+            </p>
+            <p>
+                <label>Petitioner's First Name: </label>
+                <input type="text" th:value="${petitioner.first}" id="first" name="first" required>
+            </p>
+            <p>
+                <label>Petitioner's Middle Name: </label>
+                <input type="text" th:value="${petitioner.middle}" id="middle" name="middle">
+            </p>
+            <p>
+                <label>Petitioner's Company Name: </label>
+                <input type="text" th:value="${petitioner.companyName}" id="companyName" name="companyName" required>
+            </p>
+            <p>
+                <label>Petitioner's Address: </label>
+                <input type="text" th:value="${petitioner.address}" id="address" name="address" required>
+            </p>
+            <p>
+                <label>Petitioner's Number: </label>
+                <input type="text" th:value="${petitioner.number}" id="number" name="number">
+            </p>
+            <p>
+                <label>Petitioner's City: </label>
+                <input type="text" th:value="${petitioner.city}" id="city" name="city" required>
+            </p>
+            <p>
+                <label>Petitioner's State: </label>
+                <input type="text" th:value="${petitioner.state}" id="state" name="state" required>
+            </p>
+            <p>
+                <label>Petitioner's Zipcode: </label>
+                <input type="text" th:value="${petitioner.zipcode}" id="zipcode" name="zipcode" required>
+            </p>
+            <p>
+                <label>Petitioner's Phone Number: </label>
+                <input type="text" th:value="${petitioner.phoneNumber}" id="phoneNumber" name="phoneNumber" required>
+            </p>
+            <p>
+                <label>Petitioner's Email: </label>
+                <input type="text" th:value="${petitioner.email}" id="email" name="email" required>
+            </p>
+            <p>
+                <label>Petitioner's FEIN: </label>
+                <input type="text" th:value="${petitioner.fein}" id="fein" name="fein" required>
+            </p><br>
+        </div>
+
+        <p style="text-align: center; margin: 4px"><strong>Beneficiary Information</strong></p>
+        <div style="text-align: left; padding-left: 20px; display: inline-block; margin-left: 25px">
+            <p>
+                <label>Beneficiary's Last Name: </label>
+                <input type="text" th:value="${beneficiary.lastName}" id="lastName" name="lastName" required>
+            </p>
+            <p>
+                <label>Beneficiary's First Name: </label>
+                <input type="text" th:value="${beneficiary.firstName}" id="firstName" name="firstName" required>
+            </p>
+            <p>
+                <label>Beneficiary's Middle Name: </label>
+                <input type="text" th:value="${beneficiary.middleName}" id="middleName" name="middleName">
+            </p>
+            <p>
+                <label>Beneficiary's Date of birth: </label>
+                <input type="text" th:value="${beneficiary.DOB}" id="dob" name="dob" required>
+            </p>
+            <p>
+                <label>Beneficiary's Gender: </label>
+                <input type="text" th:value="${beneficiary.gender}" id="gender" name="gender" required>
+            </p>
+            <p>
+                <label>Beneficiary's Country: </label>
+                <input type="text" th:value="${beneficiary.country}" id="country" name="country" required>
+            </p>
+            <p>
+                <label>Beneficiary's Passport Number: </label>
+                <input type="text" th:value="${beneficiary.passportNumber}" id="passportNumber" name="passportNumber" required>
+            </p>
+            <p>
+                <label>Beneficiary's Education: </label>
+                <input type="text" th:value="${beneficiary.education}" id="education" name="education" required>
+            </p><br>
+        </div>
+
+        <p style="text-align: center; margin: 4px"><strong>Basic Information</strong></p>
+        <div style="text-align: left; padding-left: 20px; display: inline-block; margin-left: 25px">
+            <p>
+                <label>Job Title: </label>
+                <input type="text" th:value="${visaApplication.jobTitle}" id="job" name="job" required>
+            </p>
+            <p>
+                <label>Wage: </label>
+                <input type="text" th:value="${visaApplication.wage}" id="wage" name="wage" required>
+            </p>
+            <p>
+                <label>From: </label>
+                <input type="text" th:value="${visaApplication.fromDate}" id="from" name="from" required>
+            </p>
+            <p>
+                <label>To: </label>
+                <input type="text" th:value="${visaApplication.toDate}" id="to" name="to" required>
+            </p>
+        </div>
+
+        <p style="display: flex; justify-content: center; align-items: center;">
+            <button type="submit">Save changes</button>
+        </p>
+    </form>
+</div>
+
+<div style="display: flex; justify-content: center; align-items: center;">
+    <a href="/"><button type="submit">Main Menu</button></a>
+</div>
+</body>
+</html>

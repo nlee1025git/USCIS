@@ -1,0 +1,77 @@
+<!--<!DOCTYPE html>-->
+<!--<html lang="en" xmlns:th="http://www.thymeleaf.org">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <title>Result Page</title>-->
+<!--    <style>-->
+<!--        body {-->
+<!--            font-family: Arial, sans-serif;-->
+<!--            margin: 20px;-->
+<!--        }-->
+<!--        h2 {-->
+<!--            color: #333;-->
+<!--        }-->
+<!--        ul {-->
+<!--            list-style-type: none;-->
+<!--            padding: 0;-->
+<!--        }-->
+<!--        li {-->
+<!--            margin-bottom: 10px;-->
+<!--        }-->
+<!--    </style>-->
+<!--</head>-->
+<!--<body>-->
+<!--<h2>IDs within the Date Range:</h2>-->
+<!--<ul>-->
+<!--    <li th:each="id : ${ids}" th:text="${id}"></li>-->
+<!--</ul>-->
+<!--</body>-->
+<!--</html>-->
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Approval Petition</title>
+</head>
+<body>
+<div style="text-align: center">
+    <h3 style="display: inline-block">Petition for a Nonimmigrant Worker<span style="padding-right: 30px"></span></h3>
+    <h3 style="display: inline-block">USCIS Form I-129</h3>
+</div>
+
+<div style="display: flex; justify-content: center; align-items: center;">
+    <form th:action="@{/displayForm}" method="get" onsubmit="return checkIDExists();">
+        <p>
+            Application IDs within Specified Date Range<br><br>
+            Period: <label th:text="${start}"></label> - <label th:text="${end}"></label>
+        </p>
+
+        <ul>
+            <li th:each="id : ${ids}" th:text="'ID: ' + ${id}"></li>
+        </ul>
+
+        <label>Application ID:</label>
+        <input type="text" id="id" name="id" required>
+        <button type="submit">Select</button>
+    </form><br>
+</div><br>
+
+<div style="display: flex; justify-content: center; align-items: center;">
+    <a href="/"><button type="submit">Main Menu</button></a>
+</div>
+
+<script th:inline="javascript">
+    function checkIDExists() {
+        var enteredID = parseInt(document.getElementById('id').value.trim());
+        var idsArray = /*[[${ids}]]*/ [];
+
+        if (idsArray.includes(enteredID)) {
+            return true;
+        }
+        alert('ID does not exists within the specified date range.');
+        return false;
+    }
+</script>
+</body>
+</html>

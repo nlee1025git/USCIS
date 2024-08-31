@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Approval</title>
+    <style>
+        input[type="password"] {
+            text-security: disc;
+        }
+    </style>
+</head>
+
+<body>
+<div style="text-align: center">
+    <h3 style="display: inline-block">Petition for a Nonimmigrant Worker<span style="padding-right: 30px"></span></h3>
+    <h3 style="display: inline-block">USCIS Form I-129</h3>
+    <h3>Approval Petition</h3>
+</div>
+
+<div style="display: flex; justify-content: center; align-items: center;">
+    <form th:action="@{/approveSearch}" method="post" onsubmit="return validateLogin()">
+        <p>
+            <label>Username</label><br>
+            <input type="text" id="username" name="username" required>
+        </p>
+
+        <p>
+            <label>Password</label><br>
+            <input type="password" id="password" name="password" required>
+        </p>
+
+        <span style="padding-right: 45px"></span>
+        <button type="submit">Log in</button>
+    </form><br>
+</div><br>
+
+<div style="display: flex; justify-content: center; align-items: center;">
+    <a href="/"><button type="submit">Main Menu</button></a>
+</div>
+
+<script>
+<!--<script th:inline="javascript">-->
+    function validateLogin() {
+        var username = document.getElementById('username').value;
+        var password = document.getElementById('password').value;
+
+        if (username === 'admin' && password === 'a') {return true;}
+
+        if (username === 'admin' && password === 'password') {
+            return true;
+        } else {
+            alert('Incorrect username or password.');
+            return false;
+        }
+    }
+</script>
+</body>
+</html>

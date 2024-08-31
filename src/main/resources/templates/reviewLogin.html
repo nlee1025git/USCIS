@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Review</title>
+    <style>
+        input[type="password"] {
+            text-security: disc;
+        }
+    </style>
+</head>
+
+<body>
+<div style="text-align: center">
+    <h3 style="display: inline-block">Petition for a Nonimmigrant Worker<span style="padding-right: 30px"></span></h3>
+    <h3 style="display: inline-block">USCIS Form I-129</h3>
+    <h3>Review Petition</h3>
+</div>
+
+<div style="display: flex; justify-content: center; align-items: center;">
+    <form th:action="@{/reviewSearch}" method="post" onsubmit="return validateLogin()">
+        <p>
+            <label>Username</label><br>
+            <input type="text" id="username" name="username"><br>
+            <label id="username-error-message" style="display: none; color: red">Please enter your username</label><br>
+        </p>
+
+        <p>
+            <label>Password</label><br>
+            <input type="password" id="password" name="password"><br>
+            <label id="password-error-message" style="display: none; color: red">Please enter your password</label><br>
+        </p>
+
+        <span style="padding-right: 80px"></span>
+        <button type="submit">Log in</button>
+    </form><br>
+</div><br>
+
+<div style="display: flex; justify-content: center; align-items: center;">
+    <a href="/"><button type="submit">Main Menu</button></a>
+</div>
+
+<script th:inline="javascript">
+    function validateLogin() {
+        var username = document.getElementById('username').value.trim();
+        var usernameField = document.getElementById('username');
+        var password = document.getElementById('password').value;
+        var passwordField = document.getElementById('password');
+
+        if (username == "") {
+            usernameField.style.borderColor = "red";
+            document.getElementById("username-error-message").style.display = "block";
+            return false;
+        } else {
+            usernameField.style.borderColor = "";
+            document.getElementById("username-error-message").style.display = "none";
+        }
+
+        if (password == "") {
+            passwordField.style.borderColor = "red";
+            document.getElementById("password-error-message").style.display = "block";
+            return false;
+        } else {
+            passwordField.style.borderColor = "";
+            document.getElementById("password-error-message").style.display = "none";
+        }
+
+        if (username === 'admin' && password === 'a') {
+            return true;
+        }
+
+        if (username === 'admin' && password === 'password') {
+            return true;
+        } else {
+            alert('Incorrect username or password.');
+            return false;
+        }
+    }
+</script>
+
+<style>
+    #username, #password {
+        width: 200px;
+        padding: 5px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+</style>
+</body>
+</html>

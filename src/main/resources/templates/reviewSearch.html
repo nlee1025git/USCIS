@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Review</title>
+    <style>
+        ul li {
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+
+<body>
+<div style="text-align: center">
+    <h3 style="display: inline-block">Petition for a Nonimmigrant Worker<span style="padding-right: 30px"></span></h3>
+    <h3 style="display: inline-block">USCIS Form I-129</h3>
+    <h3>Review Petition</h3>
+</div>
+
+<div style="display: flex; justify-content: center; align-items: center;">
+    <form th:action="@{/search}" method="get">
+        <label>Search By Application ID:</label>
+        <input type="text" id="id" name="id" required>
+        <button type="submit" onclick="return validateID()">Search</button>
+    </form><br>
+</div><br>
+
+<div style="display: flex; justify-content: center; align-items: center;">
+    <form th:action="@{/searchByCountry}" method="get">
+        <label>Search By Country:</label>
+        <select id="country" name="country" style="width: 288px; height: 22px" required>
+            <option value="">Select Country</option>
+            <option th:each="c : ${countries}"
+                    th:value="${c.country_name}"
+                    th:text="${c.country_name}">Country</option>
+        </select>
+        <button type="submit" onclick="return checkIDs()">Select</button>
+    </form><br>
+</div><br><br>
+
+<div style="display: flex; justify-content: center; align-items: center;">
+    <form th:action="@{/search}" method="get">
+        <h3 style="display: flex; justify-content: center; align-items: center;">Review Pending Application IDs:</h3>
+        <ul>
+            <li th:each="visaApplication : ${pendingList}">
+                <span th:text="'Application ID: '"></span>
+                <span th:style="${visaApplication.applicationId < 10} ? 'padding-right: 8px;' : 'padding-right: 0px;'"></span>
+                <span th:text="${visaApplication.applicationId}"></span>
+                <span style="padding-right: 20px"></span>
+                <span th:each="beneficiary : ${pendingList2}" th:if="${beneficiary.id == visaApplication.beneficiaryId}">
+                    <span th:text="'Name: ' + ${beneficiary.firstName} + ' ' + ${beneficiary.middleName} + '. ' + ${beneficiary.lastName}"></span>
+                </span>
+            </li>
+        </ul>
+    </form><br>
+</div><br>
+
+<div style="display: flex; justify-content: center; align-items: center;">
+    <a href="/"><button type="submit">Main Menu</button></a>
+</div>
+
+<script th:inline="javascript">
+    var visaApplicationList = /*[[${visaApplicationList}]]*/ '[]';
+    var beneficiaryList = /*[[${beneficiaryList}]]*/ '[]';
+
+    function validateID() {
+        var idNum = document.getElementById('id').value;
+        var intValue = parseInt(idNum);
+
+        if (isNaN(intValue) || !Number.isInteger(intValue)) {
+            alert("Enter a valid application ID.");
+            return false;
+        }
+
+        for (var i = 0; i < visaApplicationList.length; i++) {
+            var visaApplication = visaApplicationList[i];
+            if (visaApplication.applicationId == intValue) {
+                if (visaApplication.status == "1") {
+                    return true;
+                }
+                if (visaApplication.status == "2") {
+                    alert('The application ID ' + intValue + ' has already been reviewed.');
+                    return false;
+                }
+                if (visaApplication.status == "3") {
+                    alert('The application ID ' + intValue + ' has already been approved.');
+                    return false;
+                }
+                if (visaApplication.status == "4") {
+                    alert('The application ID ' + intValue + ' has already been denied.');
+                    return false;
+                }
+            }
+        }
+        return false;
+    }
+
+    function checkIDs() {
+        var country = document.getElementById("country").value;
+        var count = 0;
+        for (var i = 0; i < beneficiaryList.length; i++) {
+            if (beneficiaryList[i]["country"] == country) {
+                count++;
+            }
+        }
+
+        if (count == 0) {
+            alert("No application IDs found for " + country);
+            return false;
+        }
+        return true;
+    }
+</script>
+</body>
+</html>

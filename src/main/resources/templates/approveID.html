@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Approval</title>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+</head>
+
+<body>
+<div style="text-align: center">
+    <h3 style="display: inline-block">Petition for a Nonimmigrant Worker<span style="padding-right: 30px"></span></h3>
+    <h3 style="display: inline-block">USCIS Form I-129</h3>
+    <h3>Approval Petition</h3>
+</div>
+
+<div style="display: flex; justify-content: center; align-items: center;">
+    <form th:action="@{/approveID}" method="get">
+        <label>Application ID:</label>
+        <input type="text" id="id" name="id" required>
+        <button type="submit" onclick="return validateID()">Search</button>
+    </form><br>
+</div><br>
+
+<div style="display: flex; justify-content: center; align-items: center;">
+    <form th:action="@{/searchDate}" id="searchDate" method="get">
+        <label for="startDate">Date Selection:</label>
+        <input type="dateRange" id="startDate" name="startDate">
+        <input type="dateRange" id="endDate" name="endDate">
+        <button type="submit" onclick="validate()">Submit</button>
+        <button type="button" onclick="clearDates()">Clear</button>
+    </form><br>
+</div><br><br>
+
+<div style="display: flex; justify-content: center; align-items: center;">
+    <form th:action="@{/search}" method="get">
+        <h3 style="display: flex; justify-content: center; align-items: center;">Approval Pending Application IDs:</h3>
+        <ul>
+            <li th:each="visaApplication : ${pendingList}">
+                <span th:text="'Application ID: '"></span>
+                <span th:style="${visaApplication.applicationId < 10} ? 'padding-right: 8px;' : 'padding-right: 0px;'"></span>
+                <span th:text="${visaApplication.applicationId}"></span>
+                <span style="padding-right: 20px"></span>
+                <span th:each="beneficiary : ${pendingList2}" th:if="${beneficiary.id == visaApplication.beneficiaryId}">
+                    <span th:text="'Name: ' + ${beneficiary.firstName} + ' ' + ${beneficiary.middleName} + '. ' + ${beneficiary.lastName}"></span>
+                </span>
+            </li>
+        </ul>
+    </form><br>
+</div><br>
+
+<div style="display: flex; justify-content: center; align-items: center;">
+    <a href="/"><button type="submit">Main Menu</button></a>
+</div>
+
+<script th:inline="javascript">
+    $(function() {
+        $('#startDate').datepicker({
+            dateFormat: 'yy-mm-dd',
+            changeMonth: true,
+            changeYear: true,
+            yearRange: '-5:+0',
+            maxDate: 0,
+            onSelect: function(selectedDate) {
+                var minDate = new Date(selectedDate);
+                minDate.setDate(minDate.getDate() + 1);
+                $('#endDate').datepicker('option', 'minDate', minDate);
+            }
+        });
+
+        $('#endDate').datepicker({
+            dateFormat: 'yy-mm-dd',
+            changeMonth: true,
+            changeYear: true,
+            yearRange: '-5:+0',
+            maxDate: 0,
+            onSelect: function(selectedDate) {
+                var maxDate = new Date(selectedDate);
+                maxDate.setDate(maxDate.getDate() + 1);
+                $('#startDate').datepicker('option', 'maxDate', maxDate);
+            }
+        });
+    });
+
+    function clearDates() {
+        $('#startDate').val('');
+        $('#endDate').val('');
+        $('#endDate').datepicker('option', 'minDate', null);
+        $('#startDate').datepicker('option', 'maxDate', new Date());
+    }
+
+    var visaApplicationList = /*[[${visaApplicationList}]]*/ '[]';
+    var beneficiaryList = /*[[${beneficiaryList}]]*/ '[]';
+    console.log(beneficiaryList);
+
+    function validateID() {
+        var idNum = document.getElementById('id').value;
+        var intValue = parseInt(idNum);
+
+        if (isNaN(intValue) || !Number.isInteger(intValue)) {
+            alert("Enter a valid application ID.");
+            return false;
+        }
+
+        for (var i = 0; i < visaApplicationList.length; i++) {
+            var visaApplication = visaApplicationList[i];
+            if (visaApplication.applicationId == intValue) {
+                if (visaApplication.status == "2") {
+                    return true;
+                }
+                if (visaApplication.status == "1") {
+                    alert('The application ID ' + intValue + ' is pending review.');
+                    return false;
+                }
+                if (visaApplication.status == "3") {
+                    alert('The application ID ' + intValue + ' has already been approved.');
+                    return false;
+                }
+                if (visaApplication.status == "4") {
+                    alert('The application ID ' + intValue + ' has already been denied.');
+                    return false;
+                }
+            }
+        }
+        return false;
+    }
+
+    function validate() {
+        var startDate = document.getElementById('startDate').value;
+        var endDate = document.getElementById('endDate').value;
+    }
+</script>
+</body>
+</html>

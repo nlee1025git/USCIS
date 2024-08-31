@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Review</title>
+</head>
+<body>
+<div style="text-align: center">
+    <h3 style="display: inline-block">Petition for a Nonimmigrant Worker<span style="padding-right: 30px"></span></h3>
+    <h3 style="display: inline-block">USCIS Form I-129</h3>
+    <h3>Review Petition</h3>
+</div>
+
+<div style="display: flex; justify-content: center; align-items: center;">
+    <form th:action="@{/search}" id="ids" method="get">
+        <div style="display: flex; justify-content: center; align-items: center;">
+            <label>Country-specific Application IDs</label>
+        </div><br>
+
+        <ul>
+            <li th:each="id : ${ids}" th:text="'ID: ' + ${id}"></li>
+        </ul>
+
+        <label>Application ID:</label>
+        <input type="text" id="id" name="id" required>
+        <button type="submit">Select</button>
+    </form><br>
+</div><br>
+
+<!--<div style="display: flex; justify-content: center; align-items: center;">-->
+<!--    <form th:action="@{/searchDate}" id="searchDate" method="get">-->
+<!--        <li th:each="country : ${countries}" th:text="${country.country_name}"></li>-->
+<!--    </form><br>-->
+<!--</div><br>-->
+
+<div style="display: flex; justify-content: center; align-items: center;">
+    <a href="/"><button type="submit">Main Menu</button></a>
+</div>
+</body>
+</html>

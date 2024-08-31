@@ -1,0 +1,86 @@
+.matrix {
+    display: grid;
+    grid-template-columns: repeat(3, 100px);
+    grid-template-rows: repeat(3, 100px);
+    gap: 1px;
+}
+
+.matrix div {
+    width: 100px;
+    height: 100px;
+}
+
+table {
+    width: 100%;
+    height: 100px;
+    border-collapse: collapse;
+}
+
+td {
+    width: 10%;
+    height: 100%;
+    border: 1px solid #000;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.gradient-bar {
+    position: relative;
+    width: 40px;
+    height: 300px;
+    border: 1px solid #000;
+    background: linear-gradient(to bottom,
+        #0000ff,
+        #00ffff,
+        #00ff00,
+        #ffff00,
+        #ff0000
+    );
+    margin-left: 95%;
+}
+
+.container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.common {
+    width: 3%;
+    height: 40px;
+    border: 1px solid #000;
+    margin-bottom: 50px;
+    margin: 25px;
+}
+
+.common:hover {
+    opacity: 0.8;
+}
+
+.arrow {
+    position: absolute;
+    top: 50%;
+    right: calc(100% + 3px);
+    width: 0;
+    height: 0;
+    border-top: 10px solid transparent;
+    border-bottom: 10px solid transparent;
+    border-left: 10px solid black;
+    transform: translateY(-50%);
+}
+
+.common.hover {
+    cursor: pointer;
+    opacity: 1;
+    background-color: #d0e0f0;
+}
+
+.job-detail {
+    display: none;
+    margin-top: 10px;
+    border: 1px solid #ddd;
+    padding: 10px;
+    border-radius: 8px;
+    background-color: #fafafa;
+}

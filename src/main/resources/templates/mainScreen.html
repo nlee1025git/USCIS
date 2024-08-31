@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Main Screen</title>
+</head>
+<body>
+<div style="text-align: center">
+    <h3 style="display: inline-block">Petition for a Nonimmigrant Worker<span style="padding-right: 30px"></span></h3>
+    <h3 style="display: inline-block">USCIS Form I-129</h3>
+</div>
+
+<div style="display: flex; justify-content: center; align-items: center; margin: 10px">
+    <p style="margin: 10px; word-wrap: break-word; width: 480px">
+        Petitioners use this form to file on behalf of a nonimmigrant worker to come to the United States temporarily to perform services or labor, or to receive training, as an H-1B, H-2A, H-2B, H-3, L-1, O-1, O-2, P-1, P-1S, P-2, P-2S, P-3, P-3S, Q-1 or R-1 nonimmigrant worker. Petitioners may also use this form to request an extension of stay in or change of status to E-1, E-2, E-3, H-1B1 or TN, or one of the above classifications for a noncitizen.
+    </p>
+</div>
+<br><br><br>
+
+<div style="display: flex; justify-content: center; align-items: center;">
+    <a href="/data-entry"><button type="submit">Data Entry</button></a>
+    <span style="padding-right: 70px"></span>
+    <a th:href="@{/reviewLogin}"><button type="submit">Review</button></a>
+    <span style="padding-right: 70px"></span>
+    <a th:href="@{/approveLogin}"><button type="submit">Approval</button></a>
+</div>
+<!--<a href="/data-entry" style="text-decoration: none; color: green">abc</a>-->
+<!--<aside>aaaaa</aside>-->
+</body>
+</html>

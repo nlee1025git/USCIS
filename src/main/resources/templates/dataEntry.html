@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Data Entry</title>
+    <style>
+        body {
+            background-color: #f0f0f0;
+            background-color: #a9a9a9;
+        }
+
+        .form-container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 550px;
+            margin: 5px auto;
+            text-align: center;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .uscis {
+            text-align: right;
+        }
+
+        .uscis h3 {
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+<div class="form-container">
+    <div class="header">
+        <h2 style="flex-grow: 1; text-align: center;">Petition for a Nonimmigrant Worker</h2>
+<!--        <h3>Petition for a Nonimmigrant Worker</h3>-->
+        <div class="uscis" style="padding-right: 10px">
+            <h3 style="text-align: left; margin-left: 20px">USCIS</h3>
+            <h3>Form I-129</h3>
+        </div>
+    </div>
+
+    <div style="text-align: left; padding-left: 13px; display: flex; justify-content: center; align-items: center;">
+        <form action="/data-entry" method="post">
+            <p style="text-align: center"><strong>Part 1. Petitioner Information</strong></p>
+
+            <p>
+                <label>Application Date</label><br>
+                <input th:value="${today}" type="text" id="applicationDate" name="applicationDate" size="70px" readonly>
+            </p>
+
+            <p>
+                <label>Last Name<span style="padding-right: 125px"></span></label>
+                <label>First Name<span style="padding-right: 90px"></span></label>
+                <label>Middle Name</label><br>
+                <input type="text" id="last" name="last" size="26px" required>&nbsp;&nbsp;
+                <input type="text" id="first" name="first" size="21" required>&nbsp;&nbsp;
+                <input type="text" id="middle" name="middle" size="15px">
+            </p>
+
+            <p>
+                <label>Company Name</label><br>
+                <input type="text" id="companyName" name="companyName" size="70px" required>
+            </p>
+
+            <p>
+                <label>Street Address<span style="padding-right: 268px"></span></label>
+                <label>Number</label><br>
+                <input type="text" id="address" name="address" size="51px" required>&nbsp;&nbsp;
+                <input type="text" id="number" name="number" size="15px"><br><br>
+
+                <label>City or Town<span style="padding-right: 203px"></span></label>
+                <label>State<span style="padding-right: 43px"></span></label>
+                <label>ZIP Code</label><br>
+                <input type="text" id="city" name="city" size="40px" required>&nbsp;&nbsp;
+                <input type="text" id="state" name="state" size="8px" required>&nbsp;&nbsp;
+                <input type="text" id="zipcode" name="zipcode" size="14px" required><br>
+            </p>
+
+            <p>
+                <label>Phone Number<span style="padding-right: 98px"></span></label>
+                <label>Email</label><br>
+                <input type="text" id="phoneNumber" name="phoneNumber" size="26px" required>&nbsp;&nbsp;
+                <input type="text" id="email" name="email" size="40px" required>
+            </p>
+
+            <p>
+                <label>Federal Employer Identification Number (FEIN)</label><br>
+                <input type="text" id="fein" name="fein" size="45px" required>
+            </p><br>
+
+            <p style="text-align: center"><strong>Part 2. Beneficiary Information</strong></p>
+
+            <p>
+                <label>Last Name<span style="padding-right: 125px"></span></label>
+                <label>First Name<span style="padding-right: 90px"></span></label>
+                <label>Middle Name</label><br>
+                <input type="text" id="lastName" name="lastName" size="26px" required>&nbsp;&nbsp;
+                <input type="text" id="firstName" name="firstName" size="21" required>&nbsp;&nbsp;
+                <input type="text" id="middleName" name="middleName" size="15px">
+            </p>
+
+            <p>
+                <label>Date of birth: (yyyy-mm-dd)<span style="padding-right: 37px"></span></label>
+                <label>Gender</label><br>
+                <input type="text" id="dob" name="dob" size="30px" required>&nbsp;&nbsp;
+                <input type="text" id="gender" name="gender" size="10px" required>
+            </p>
+
+            <p>
+                <label>Country<span style="padding-right: 235px"></span></label>
+                <label>Passport Number</label><br>
+                <select id="country" name="country" style="width: 288px; height: 22px" required>
+                    <option value="">Select Country</option>
+                    <option th:each="c : ${countries}"
+                            th:value="${c.country_name}"
+                            th:text="${c.country_name}">Country</option>
+                </select>
+                <input type="text" id="passportNumber" name="passportNumber" size="26px" required>
+            </p>
+
+            <p>
+                <label>Education</label><br>
+                <input type="text" id="education" name="education" size="25px" required>
+            </p><br>
+
+            <p style="text-align: center"><strong>Part 3. Basic Information</strong></p>
+
+            <p>
+                <label>Job Title<span style="padding-right: 265px"></span></label>
+                <label>Wage (per year)<span style="padding-right: 43px"></span></label><br>
+                <input type="text" id="job" name="job" size="45px" required>&nbsp;&nbsp;
+                <input type="text" id="wage" name="wage" size="21px" required>&nbsp;&nbsp;
+            </p>
+
+            <p>
+                <label>Dates of intended employment</label><br>
+                <label>From: (yyyy-mm-dd)<span style="padding-right: 90px"></span></label>
+                <label>To: (yyyy-mm-dd)<span style="padding-right: 43px"></span></label><br>
+                <input type="text" id="from" name="from" size="25px" required>&nbsp;&nbsp;
+                <span style="padding-right: 40px"></span>
+                <input type="text" id="to" name="to" size="25px" required>&nbsp;&nbsp;
+            </p>
+
+            <p>
+                <label>Visa Type</label><br>
+                <input type="text" id="visa" name="visa" size="30px" required>&nbsp;&nbsp;
+            </p><br>
+
+            <p style="text-align: center; padding-right: 13px">
+                <button type="submit">Submit</button>
+            </p>
+        </form>
+    </div>
+
+    <div style="display: flex; justify-content: center; align-items: center;">
+        <a href="/"><button type="submit">Main Menu</button></a>
+    </div>
+</div>
+<br>
+</body>
+</html>
