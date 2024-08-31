@@ -98,11 +98,11 @@
   </div>
 
   <div id="detail" class="job-detail">
-    <div th:each="b : ${ben}">
-      <div th:text="${b.getLastName()}"></div>
+    <div class="beneficiary-container" th:each="beneficiary : ${beneficiaries}">
+      <div th:text="${beneficiary.getLastName()}"></div>
     </div>
-    <div th:each="job : ${jobs}">
-      <div job-id="${job.application_id}" th:text="${job.jobTitleVerification}"></div>
+    <div th:each="backgroundCheck : ${backgroundChecks}">
+      <div job-id="${backgroundCheck.application_id}" th:text="${backgroundCheck.jobTitleVerification}"></div>
     </div>
   </div>
 

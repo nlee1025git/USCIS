@@ -84,3 +84,9 @@ td {
     border-radius: 8px;
     background-color: #fafafa;
 }
+
+.beneficiary-container {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}

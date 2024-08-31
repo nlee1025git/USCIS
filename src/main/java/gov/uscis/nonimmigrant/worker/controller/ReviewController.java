@@ -217,14 +217,10 @@ public class ReviewController {
                 .boxed()
                 .collect(Collectors.toMap(i -> i, i -> colorList.get(i)));
 
-        System.out.println(colorMap);
-        List<Integer> jobs = backgroundCheckService.findJobs();
-        List<BackgroundCheck> a = backgroundCheckService.findBackgrounds();
-        List<Beneficiary> b = beneficiaryService.findBeneficiaries();
-        System.out.println(jobs);
-        System.out.println(a);
-        model.addAttribute("jobs", a);
-        model.addAttribute("ben", b);
+        List<BackgroundCheck> backgroundChecks = backgroundCheckService.findBackgrounds();
+        List<Beneficiary> beneficiaries = beneficiaryService.findBeneficiaries();
+        model.addAttribute("backgroundChecks", backgroundChecks);
+        model.addAttribute("beneficiaries", beneficiaries);
 
         model.addAttribute("colorMap", colorMap);
         model.addAttribute("colorList", colorList);
@@ -232,13 +228,6 @@ public class ReviewController {
         model.addAttribute("wage", colorToHex(jetColormap(backgroundCheck.getWageCompliance() * 0.1f)));
         model.addAttribute("qualification", colorToHex(jetColormap(backgroundCheck.getBeneficiaryQualification() * 0.1f)));
         model.addAttribute("record", colorToHex(jetColormap(backgroundCheck.getCriminalRecord() * 0.1f)));
-
-        List<String> items = new ArrayList<>();
-        items.add("a");
-        items.add("b");
-        items.add("d");
-        items.add("c");
-        model.addAttribute("items", items);
     }
 
     public static Color jetColormap(float value) {
