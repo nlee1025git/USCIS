@@ -20,6 +20,23 @@
     .record {
         background: [[${record}]];
     }
+
+    .color-box {
+      width: 50px;
+      height: 50px;
+      display: inline-block;
+      border: 1px solid #000;
+    }
+
+    table {
+      width: 60%;
+      border-collapse: collapse;
+      margin: 0 auto;
+    }
+
+    td {
+      padding: 8px;
+    }
   </style>
 </head>
 
@@ -35,77 +52,269 @@
     <p style="font-weight: bold" th:text="'Application ID: EAC2090' + ${visaApplication.applicationId}"></p>
     <p style="font-weight: bold" th:text="'Application Date: ' + ${visaApplication.applicationDate}"></p>
   </div>
+</div><br><br>
+
+<div style="text-align: center">
+  <table>
+    <tr>
+      <td colspan="2" style="text-align: center; margin: 4px"><strong>Petitioner Information</strong></td>
+    </tr>
+    <tr>
+      <td>Petitioner's Last Name</td>
+      <td th:text="${petitioner.last}"></td>
+    </tr>
+    <tr>
+      <td>Petitioner's First Name</td>
+      <td th:text="${petitioner.first}"></td>
+    </tr>
+    <tr>
+      <td>Petitioner's Middle Name</td>
+      <td th:text="${petitioner.middle}"></td>
+    </tr>
+    <tr>
+      <td>Petitioner's Company Name</td>
+      <td th:text="${petitioner.companyName}"></td>
+    </tr>
+    <tr>
+      <td>Petitioner's Address</td>
+      <td th:text="${petitioner.address}"></td>
+    </tr>
+    <tr>
+      <td>Petitioner's Number</td>
+      <td th:text="${petitioner.number}"></td>
+    </tr>
+    <tr>
+      <td>Petitioner's City</td>
+      <td th:text="${petitioner.city}"></td>
+    </tr>
+    <tr>
+      <td>Petitioner's State</td>
+      <td th:text="${petitioner.state}"></td>
+    </tr>
+    <tr>
+      <td>Petitioner's Zipcode</td>
+      <td th:text="${petitioner.zipcode}"></td>
+    </tr>
+    <tr>
+      <td>Petitioner's Phone Number</td>
+      <td th:text="${petitioner.phoneNumber}"></td>
+    </tr>
+    <tr>
+      <td>Petitioner's Email</td>
+      <td th:text="${petitioner.email}"></td>
+    </tr>
+    <tr>
+      <td>Petitioner's FEIN</td>
+      <td th:text="${petitioner.fein}"></td>
+    </tr>
+  </table>
+</div><br><br>
+
+<div style="text-align: center">
+  <table>
+    <tr>
+      <td colspan="2" style="text-align: center; margin: 4px"><strong>Beneficiary Information</strong></td>
+    </tr>
+    <tr>
+      <td>Beneficiary's Last Name</td>
+      <td th:text="${beneficiary.lastName}"></td>
+    </tr>
+    <tr>
+      <td>Beneficiary's First Name</td>
+      <td th:text="${beneficiary.firstName}"></td>
+    </tr>
+    <tr>
+      <td>Beneficiary's Middle Name</td>
+      <td th:text="${beneficiary.middleName}"></td>
+    </tr>
+    <tr>
+      <td>Beneficiary's Date of birth</td>
+      <td th:text="${beneficiary.DOB}"></td>
+    </tr>
+    <tr>
+      <td>Beneficiary's Gender</td>
+      <td th:text="${beneficiary.gender}"></td>
+    </tr>
+    <tr>
+      <td>Beneficiary's Country</td>
+      <td th:text="${beneficiary.country}"></td>
+    </tr>
+    <tr>
+      <td>Beneficiary's Passport Number</td>
+      <td th:text="${beneficiary.passportNumber}"></td>
+    </tr>
+    <tr>
+      <td>Beneficiary's Education</td>
+      <td th:text="${beneficiary.education}"></td>
+    </tr>
+  </table>
+</div><br><br>
+
+<div style="text-align: center">
+  <table>
+    <tr>
+      <td colspan="2" style="text-align: center; margin: 4px"><strong>Basic Information</strong></td>
+    </tr>
+    <tr>
+      <td>Job Title</td>
+      <td th:text="${visaApplication.jobTitle}"></td>
+    </tr>
+    <tr>
+      <td>Wage</td>
+      <td th:text="${visaApplication.wage}"></td>
+    </tr>
+    <tr>
+      <td>From</td>
+      <td th:text="${visaApplication.fromDate}"></td>
+    </tr>
+    <tr>
+      <td>To</td>
+      <td th:text="${visaApplication.toDate}"></td>
+    </tr>
+  </table>
+</div><br><br>
+
+<div style="text-align: center">
+  <table>
+    <tr>
+      <td colspan="3" style="text-align: center; margin: 4px"><strong>Background Check Score</strong></td>
+    </tr>
+    <tr>
+      <td>Job Title Verification</td>
+      <td th:text="${backgroundCheck.jobTitleVerification} + ' (20%)'"></td>
+      <td>
+        <div class="color-box" th:style="'background-color: ' + ${job}"></div>
+      </td>
+    </tr>
+    <tr>
+      <td>Wage Compliance</td>
+      <td th:text="${backgroundCheck.wageCompliance} + ' (15%)'"></td>
+      <td>
+        <div class="color-box" th:style="'background-color: ' + ${wage}"></div>
+      </td>
+    </tr>
+    <tr>
+      <td>Beneficiary Qualification</td>
+      <td th:text="${backgroundCheck.beneficiaryQualification} + ' (30%)'"></td>
+      <td>
+        <div class="color-box" th:style="'background-color: ' + ${qualification}"></div>
+      </td>
+    </tr>
+    <tr>
+      <td>Criminal Record</td>
+      <td th:text="${backgroundCheck.criminalRecord} + ' (35%)'"></td>
+      <td>
+        <div class="color-box" th:style="'background-color: ' + ${record}"></div>
+      </td>
+    </tr>
+    <tr>
+      <td>Total Normalized Score</td>
+      <td th:text="${normalize} + ' / 10'"></td>
+      <td>
+        <div class="color-box" th:style="'background-color: ' + ${total}"></div>
+      </td>
+    </tr>
+    <tr>
+      <td>Minimum Normalized Score</td>
+      <td th:text="'2.5 / 10'"></td>
+      <td>
+        <div class="color-box" th:style="'background-color: ' + ${minimum}"></div>
+      </td>
+    </tr>
+  </table>
 </div>
 
-<div style="text-align: center">
-  <p style="text-align: center; margin: 4px"><strong>Petitioner Information</strong></p>
-  <div style="text-align: left; padding-left: 75px; display: inline-block; margin-left: 25px">
-    <p th:text="'Petitioner\'s Last Name: ' + ${petitioner.last}"></p>
-    <p th:text="'Petitioner\'s First Name: ' + ${petitioner.first}"></p>
-    <p th:text="'Petitioner\'s Middle Name: ' + ${petitioner.middle}"></p>
-    <p th:text="'Petitioner\'s Company Name: ' + ${petitioner.companyName}"></p>
-    <p th:text="'Petitioner\'s Address: ' + ${petitioner.address}"></p>
-    <p th:text="'Petitioner\'s Number: ' + ${petitioner.number}"></p>
-    <p th:text="'Petitioner\'s City: ' + ${petitioner.city}"></p>
-    <p th:text="'Petitioner\'s State: ' + ${petitioner.state}"></p>
-    <p th:text="'Petitioner\'s Zipcode: ' + ${petitioner.zipcode}"></p>
-    <p th:text="'Petitioner\'s Phone Number: ' + ${petitioner.phoneNumber}"></p>
-    <p th:text="'Petitioner\'s Email: ' + ${petitioner.email}"></p>
-    <p th:text="'Petitioner\'s FEIN: ' + ${petitioner.fein}"></p>
-  </div>
-</div><br><br>
+<!--  <div class="container">-->
+<!--    <div class="common job"></div>-->
+<!--    <div class="common wage"></div>-->
+<!--    <div class="common qualification"></div>-->
+<!--    <div class="common record"></div>-->
+<!--  </div>-->
+
+<!--  <div id="detail" class="job-detail">-->
+<!--    <div>-->
+<!--      <table>-->
+
+<!--        <th:block th:each="item: ${combined}">-->
+<!--          <tr>-->
+<!--            <td th:text="${item.beneficiaries.getLastName()}"></td>-->
+<!--            <td th:text="${item.backgroundChecks.jobTitleVerification}"></td>-->
+<!--            <td>-->
+<!--              <div class="color-box" th:style="'background-color: ' + ${color}"></div>-->
+<!--            </td>-->
+<!--          </tr>-->
+<!--        </th:block>-->
+
+<!--        <th:block th:each="color : ${colors}">-->
+<!--          <tr>-->
+<!--            &lt;!&ndash; Create a table cell with a colored box &ndash;&gt;-->
+<!--            <td>-->
+<!--              <div class="color-box" th:style="'background-color: ' + ${color}"></div>-->
+<!--            </td>-->
+<!--            <td>-->
+<!--              <div th:text="bcde"></div>-->
+<!--            </td>-->
+<!--          </tr>-->
+<!--        </th:block>-->
+
+<!--        <tbody>-->
+<!--          <th:block th:each="color : ${colors}">-->
+<!--            <tr>-->
+<!--              <td th:text="aa"></td>-->
+<!--              <td th:text="aabb" th:style="'background-color: ' + ${color}"></td>-->
+<!--            </tr>-->
+<!--          </th:block>-->
+<!--        </tbody>-->
+
+<!--        <tbody>-->
+<!--        <th:block>-->
+<!--          <tr th:each="color : ${colors}">-->
+<!--            <td th:text="abc"></td>-->
+<!--            <td th:text="aabbc" th:style="'background-color: ' + ${color}"></td>-->
+<!--          </tr>-->
+<!--          <tr>-->
+<!--&lt;!&ndash;            <td th:each="color : ${colors}" th:text="agbc"></td><br>&ndash;&gt;-->
+<!--            <td th:each="color : ${colors}"></td>-->
+<!--              <div class="color-box" th:style="'background-color: ' + ${color}"></div>-->
+<!--&lt;!&ndash;            <td th:text="aabbc" th:style="'background-color: ' + ${color}"></td>&ndash;&gt;-->
+<!--          </tr>-->
+<!--          <tr>-->
+<!--            <td th:each="color : ${colors}" th:text="agbc"></td><br>-->
+<!--          </tr>-->
+<!--        </th:block>-->
+<!--        </tbody>-->
+
+<!--        <tbody>-->
+<!--        <tr>-->
+<!--          <td th:each="item : ${combined}">-->
+<!--            <div th:text="${item.beneficiaries.getLastName()}"></div>-->
+<!--          </td>-->
+<!--        </tr>-->
+<!--        <tr>-->
+<!--          <td th:each="color : ${colors}">-->
+<!--            <div class="color-box" th:style="'background-color: ' + ${color}"></div>-->
+<!--          </td>-->
+<!--        </tr>-->
+
+<!--        <tr>-->
+<!--          <td id="nested">-->
+<!--            <table id="table2">-->
+<!--              <tr>-->
+<!--                <td>cell1</td>-->
+<!--                <td>cell2</td>-->
+<!--                <td>cell3</td>-->
+<!--              </tr>-->
+<!--            </table>-->
+<!--          </td>-->
+<!--          <td>cell2</td>-->
+<!--          <td>cell3</td>-->
+<!--        </tr>-->
+<!--        </tbody>-->
+<!--      </table>-->
+<!--    </div>-->
+<!--  </div>-->
 
 <div style="text-align: center">
-  <p style="text-align: center; margin: 4px"><strong>Beneficiary Information</strong></p>
-  <div style="text-align: left; padding-left: 50px; display: inline-block; margin-left: 25px">
-    <p th:text="'Beneficiary\'s Last Name: ' + ${beneficiary.lastName}"></p>
-    <p th:text="'Beneficiary\'s First Name: ' + ${beneficiary.firstName}"></p>
-    <p th:text="'Beneficiary\'s Middle Name: ' + ${beneficiary.middleName}"></p>
-    <p th:text="'Beneficiary\'s Date of birth: ' + ${beneficiary.DOB}"></p>
-    <p th:text="'Beneficiary\'s Gender: ' + ${beneficiary.gender}"></p>
-    <p th:text="'Beneficiary\'s Country: ' + ${beneficiary.country}"></p>
-    <p th:text="'Beneficiary\'s Passport Number: ' + ${beneficiary.passportNumber}"></p>
-    <p th:text="'Beneficiary\'s Education: ' + ${beneficiary.education}"></p>
-  </div>
-</div><br><br>
-
-<div style="text-align: center">
-  <p style="text-align: center; margin: 4px"><strong>Basic Information</strong></p>
-  <div style="text-align: left; padding-left: 5px; display: inline-block; margin-left: 25px">
-    <p th:text="'Job Title: ' + ${visaApplication.jobTitle}"></p>
-    <p th:text="'Wage: $' + ${visaApplication.wage} + ' per year'"></p>
-    <p th:text="'From: ' + ${visaApplication.fromDate}"></p>
-    <p th:text="'To: ' + ${visaApplication.toDate}"></p>
-  </div>
-</div><br><br>
-
-<div style="text-align: center">
-  <p style="text-align: center; margin: 4px"><strong>Background Check Score</strong></p>
-  <div style="text-align: left; padding-left: 5px; display: inline-block; margin-left: 25px">
-    <p th:text="'Job Title Verification: ' + ${backgroundCheck.jobTitleVerification} + ' (20%)'"></p>
-    <p th:text="'Wage Compliance: ' + ${backgroundCheck.wageCompliance} + ' (15%)'"></p>
-    <p th:text="'Beneficiary Qualification: ' + ${backgroundCheck.beneficiaryQualification} + ' (30%)'"></p>
-    <p th:text="'Criminal Record: ' + ${backgroundCheck.criminalRecord} + ' (35%)'"></p>
-    <p th:text="'Total Normalized Score: ' + ${normalize} + ' / 10'"></p>
-    <p th:text="'Minimum Normalized Score: 2.5 / 10'"></p>
-  </div><br>
-
-  <div class="container">
-    <div class="common job"></div>
-    <div class="common wage"></div>
-    <div class="common qualification"></div>
-    <div class="common record"></div>
-  </div>
-
-  <div id="detail" class="job-detail">
-    <div class="beneficiary-container" th:each="beneficiary : ${beneficiaries}">
-      <div th:text="${beneficiary.getLastName()}"></div>
-    </div>
-    <div th:each="backgroundCheck : ${backgroundChecks}">
-      <div job-id="${backgroundCheck.application_id}" th:text="${backgroundCheck.jobTitleVerification}"></div>
-    </div>
-  </div>
-
   <div class="gradient-bar">
     <div class="arrow"></div>
   </div><br>

@@ -219,8 +219,22 @@ public class ReviewController {
 
         List<BackgroundCheck> backgroundChecks = backgroundCheckService.findBackgrounds();
         List<Beneficiary> beneficiaries = beneficiaryService.findBeneficiaries();
-        model.addAttribute("backgroundChecks", backgroundChecks);
-        model.addAttribute("beneficiaries", beneficiaries);
+        List<Map<Object, Object>> combined = new ArrayList<>();
+        List<Object> colors = new ArrayList<>();
+        for (int i = 0; i < backgroundChecks.size(); i++) {
+            if (beneficiaries.get(i).getId() != beneficiaryId) {
+                combined.add(Map.of("beneficiaries", beneficiaries.get(i), "backgroundChecks", backgroundChecks.get(i)));
+                colors.add(colorToHex(jetColormap(backgroundChecks.get(i).getJobTitleVerification() * 0.1f)));
+            }
+        }
+        model.addAttribute("combined", combined);
+        model.addAttribute("colors", colors);
+//        model.addAttribute("backgroundChecks", backgroundChecks);
+//        model.addAttribute("beneficiaries", beneficiaries);
+        ReadController readController = new ReadController();
+        readController.getData();
+
+        System.out.println(colorToHex(jetColormap(backgroundCheck.getJobTitleVerification() * 0.1f)));
 
         model.addAttribute("colorMap", colorMap);
         model.addAttribute("colorList", colorList);
@@ -228,6 +242,8 @@ public class ReviewController {
         model.addAttribute("wage", colorToHex(jetColormap(backgroundCheck.getWageCompliance() * 0.1f)));
         model.addAttribute("qualification", colorToHex(jetColormap(backgroundCheck.getBeneficiaryQualification() * 0.1f)));
         model.addAttribute("record", colorToHex(jetColormap(backgroundCheck.getCriminalRecord() * 0.1f)));
+        model.addAttribute("total", colorToHex(jetColormap((float) normalize * 0.1f)));
+        model.addAttribute("minimum", colorToHex(jetColormap(0.25f)));
     }
 
     public static Color jetColormap(float value) {
@@ -235,22 +251,40 @@ public class ReviewController {
 
         if (value <= 0.11) {
             return new Color(0, 0, 139);
+        } else if (value <= 0.16) {
+            return new Color(0, 0, 197);
         } else if (value <= 0.21) {
             return new Color(0, 0, 255);
+        } else if (value <= 0.26) {
+            return new Color(0, 97, 255);
         } else if (value <= 0.31) {
             return new Color(0, 191, 255);
+        } else if (value <= 0.36) {
+            return new Color(0, 223, 255);
         } else if (value <= 0.41) {
             return new Color(0, 255, 255);
+        } else if (value <= 0.46) {
+            return new Color(25, 230, 150);
         } else if (value <= 0.51) {
             return new Color(50, 205, 50);
+        } else if (value <= 0.56) {
+            return new Color(25, 235, 25);
         } else if (value <= 0.61) {
             return new Color(0, 255, 0);
+        } else if (value <= 0.66) {
+            return new Color(127, 255, 0);
         } else if (value <= 0.71) {
             return new Color(255, 255, 0);
+        } else if (value <= 0.76) {
+            return new Color(255, 200, 0);
         } else if (value <= 0.81) {
             return new Color(255, 165, 0);
+        } else if (value <= 0.86) {
+            return new Color(255, 100, 0);
         } else if (value <= 0.91) {
             return new Color(255, 69, 0);
+        } else if (value <= 0.96) {
+            return new Color(255, 35, 0);
         } else {
             return new Color(255, 0, 0); // Red
         }
