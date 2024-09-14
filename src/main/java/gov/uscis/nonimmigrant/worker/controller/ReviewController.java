@@ -10,10 +10,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.awt.*;
 import java.sql.Date;
-import java.util.ArrayList;
-import java.util.Comparator;
+import java.util.*;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -219,12 +217,16 @@ public class ReviewController {
 
         List<BackgroundCheck> backgroundChecks = backgroundCheckService.findBackgrounds();
         List<Beneficiary> beneficiaries = beneficiaryService.findBeneficiaries();
+        model.addAttribute("backgroundChecks", backgroundChecks);
+        model.addAttribute("beneficiaries", beneficiaries);
         List<Map<Object, Object>> combined = new ArrayList<>();
         List<Object> colors = new ArrayList<>();
         for (int i = 0; i < backgroundChecks.size(); i++) {
+            colors.add(colorToHex(jetColormap(backgroundChecks.get(i).getJobTitleVerification() * 0.1f)));
+        }
+        for (int i = 0; i < backgroundChecks.size(); i++) {
             if (beneficiaries.get(i).getId() != beneficiaryId) {
                 combined.add(Map.of("beneficiaries", beneficiaries.get(i), "backgroundChecks", backgroundChecks.get(i)));
-                colors.add(colorToHex(jetColormap(backgroundChecks.get(i).getJobTitleVerification() * 0.1f)));
             }
         }
         model.addAttribute("combined", combined);

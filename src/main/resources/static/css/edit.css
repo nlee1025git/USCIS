@@ -25,10 +25,13 @@ td {
 }
 
 .gradient-bar {
-    position: relative;
-    width: 40px;
-    height: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    height: 400px;
     border: 1px solid #000;
+    margin: 0 auto;
     background: linear-gradient(to bottom,
         #0000ff,
         #00ffff,
@@ -36,7 +39,6 @@ td {
         #ffff00,
         #ff0000
     );
-    margin-left: 95%;
 }
 
 .container {

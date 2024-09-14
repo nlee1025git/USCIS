@@ -28,6 +28,10 @@
       border: 1px solid #000;
     }
 
+    .color-box:hover {
+        opacity: 0.8;
+    }
+
     table {
       width: 60%;
       border-collapse: collapse;
@@ -161,7 +165,7 @@
     </tr>
     <tr>
       <td>Wage</td>
-      <td th:text="${visaApplication.wage}"></td>
+      <td th:text="'$' + ${visaApplication.wage}"></td>
     </tr>
     <tr>
       <td>From</td>
@@ -177,13 +181,16 @@
 <div style="text-align: center">
   <table>
     <tr>
-      <td colspan="3" style="text-align: center; margin: 4px"><strong>Background Check Score</strong></td>
+      <td colspan="4" style="text-align: center; margin: 4px"><strong>Background Check Score</strong></td>
     </tr>
     <tr>
       <td>Job Title Verification</td>
       <td th:text="${backgroundCheck.jobTitleVerification} + ' (20%)'"></td>
       <td>
-        <div class="color-box" th:style="'background-color: ' + ${job}"></div>
+        <div id="job" class="color-box" th:style="'background-color: ' + ${job}"></div>
+      </td>
+      <td rowspan="6">
+        <div class="gradient-bar" ></div>
       </td>
     </tr>
     <tr>
@@ -224,101 +231,21 @@
   </table>
 </div>
 
-<!--  <div class="container">-->
-<!--    <div class="common job"></div>-->
-<!--    <div class="common wage"></div>-->
-<!--    <div class="common qualification"></div>-->
-<!--    <div class="common record"></div>-->
-<!--  </div>-->
-
-<!--  <div id="detail" class="job-detail">-->
-<!--    <div>-->
-<!--      <table>-->
-
-<!--        <th:block th:each="item: ${combined}">-->
-<!--          <tr>-->
-<!--            <td th:text="${item.beneficiaries.getLastName()}"></td>-->
-<!--            <td th:text="${item.backgroundChecks.jobTitleVerification}"></td>-->
-<!--            <td>-->
-<!--              <div class="color-box" th:style="'background-color: ' + ${color}"></div>-->
-<!--            </td>-->
-<!--          </tr>-->
-<!--        </th:block>-->
-
-<!--        <th:block th:each="color : ${colors}">-->
-<!--          <tr>-->
-<!--            &lt;!&ndash; Create a table cell with a colored box &ndash;&gt;-->
-<!--            <td>-->
-<!--              <div class="color-box" th:style="'background-color: ' + ${color}"></div>-->
-<!--            </td>-->
-<!--            <td>-->
-<!--              <div th:text="bcde"></div>-->
-<!--            </td>-->
-<!--          </tr>-->
-<!--        </th:block>-->
-
-<!--        <tbody>-->
-<!--          <th:block th:each="color : ${colors}">-->
-<!--            <tr>-->
-<!--              <td th:text="aa"></td>-->
-<!--              <td th:text="aabb" th:style="'background-color: ' + ${color}"></td>-->
-<!--            </tr>-->
-<!--          </th:block>-->
-<!--        </tbody>-->
-
-<!--        <tbody>-->
-<!--        <th:block>-->
-<!--          <tr th:each="color : ${colors}">-->
-<!--            <td th:text="abc"></td>-->
-<!--            <td th:text="aabbc" th:style="'background-color: ' + ${color}"></td>-->
-<!--          </tr>-->
-<!--          <tr>-->
-<!--&lt;!&ndash;            <td th:each="color : ${colors}" th:text="agbc"></td><br>&ndash;&gt;-->
-<!--            <td th:each="color : ${colors}"></td>-->
-<!--              <div class="color-box" th:style="'background-color: ' + ${color}"></div>-->
-<!--&lt;!&ndash;            <td th:text="aabbc" th:style="'background-color: ' + ${color}"></td>&ndash;&gt;-->
-<!--          </tr>-->
-<!--          <tr>-->
-<!--            <td th:each="color : ${colors}" th:text="agbc"></td><br>-->
-<!--          </tr>-->
-<!--        </th:block>-->
-<!--        </tbody>-->
-
-<!--        <tbody>-->
-<!--        <tr>-->
-<!--          <td th:each="item : ${combined}">-->
-<!--            <div th:text="${item.beneficiaries.getLastName()}"></div>-->
-<!--          </td>-->
-<!--        </tr>-->
-<!--        <tr>-->
-<!--          <td th:each="color : ${colors}">-->
-<!--            <div class="color-box" th:style="'background-color: ' + ${color}"></div>-->
-<!--          </td>-->
-<!--        </tr>-->
-
-<!--        <tr>-->
-<!--          <td id="nested">-->
-<!--            <table id="table2">-->
-<!--              <tr>-->
-<!--                <td>cell1</td>-->
-<!--                <td>cell2</td>-->
-<!--                <td>cell3</td>-->
-<!--              </tr>-->
-<!--            </table>-->
-<!--          </td>-->
-<!--          <td>cell2</td>-->
-<!--          <td>cell3</td>-->
-<!--        </tr>-->
-<!--        </tbody>-->
-<!--      </table>-->
-<!--    </div>-->
-<!--  </div>-->
+<div id="detail" class="job-detail">
+  <div>
+    <table>
+      <tr th:each="index : ${#numbers.sequence(0, backgroundChecks.size() - 1)}">
+        <td th:text="${beneficiaries[index].getLastName()}"></td>
+        <td th:text="${backgroundChecks[index].jobTitleVerification}"></td>
+        <td>
+          <div class="color-box" th:style="'background-color: ' + ${colors[index]}"></div>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
 
 <div style="text-align: center">
-  <div class="gradient-bar">
-    <div class="arrow"></div>
-  </div><br>
-
   <p><a th:href="@{'/editForm?id=' + ${visaApplication.applicationId}}"><button>Edit</button></a></p>
 </div>
 
