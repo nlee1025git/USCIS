@@ -234,9 +234,12 @@ public class ReviewController {
 //        model.addAttribute("backgroundChecks", backgroundChecks);
 //        model.addAttribute("beneficiaries", beneficiaries);
         ReadController readController = new ReadController();
-        readController.getData();
+        List<List<String>> data = readController.getData();
 
-        System.out.println(colorToHex(jetColormap(backgroundCheck.getJobTitleVerification() * 0.1f)));
+//        System.out.println("a");
+//        System.out.println(data);
+//        System.out.println(data.toString());
+//        System.out.println(colorToHex(jetColormap(backgroundCheck.getJobTitleVerification() * 0.1f)));
 
         model.addAttribute("colorMap", colorMap);
         model.addAttribute("colorList", colorList);

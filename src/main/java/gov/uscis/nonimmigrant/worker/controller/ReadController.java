@@ -3,6 +3,7 @@ package gov.uscis.nonimmigrant.worker.controller;
 import org.springframework.ui.Model;
 
 import java.io.BufferedReader;
+import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -10,11 +11,30 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ReadController {
-    public void getData() {
-        String fileName = "/Users/kyu/Desktop/csv1.csv";
-        char delimiter = ',';
+    private List<List<String>> data;
 
-        List<List<String>> data = new ArrayList<>();
+    public ReadController(List<List<String>> data) {
+        this.data = data;
+    }
+
+    public ReadController() {
+        this.data = new ArrayList<>();
+    }
+
+    public List<List<String>> getExcel() {
+        String fileName = "/Users/kyu/Desktop/Data.xlsx";
+
+        try (FileInputStream fis = new FileInputStream(fileName)) {
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return data;
+    }
+
+    public List<List<String>> getData() {
+        String fileName = "/Users/kyu/Desktop/Data.csv";
+//        String fileName = "/Users/kyu/Desktop/csv1.csv";
+        char delimiter = ',';
 
         try (BufferedReader br = new BufferedReader(new FileReader(fileName, StandardCharsets.UTF_8))) {
             String line;
@@ -40,7 +60,7 @@ public class ReadController {
         } catch (IOException e) {
             e.printStackTrace();;
         }
-
-        System.out.println(data);
+//        System.out.println(data);
+        return data;
     }
 }

@@ -91,7 +91,7 @@ public class DataEntryController {
         String[] feins = {"00001", "00002", "00003", "00004", "00005"};
 
         Date[] dates = {Date.valueOf("1999-01-19"), Date.valueOf("2002-08-22")};
-        String[] genders = {"m", "f"};
+        String[] genders = {"M", "F"};
         String[] countries = {"Albania", "Algeria", "Angola", "Andorra"};
         String[] passportNumbers = {"A00001", "A00002", "A00003", "A00004", "A00005", "A00006", "A00007", "A00008", "A00009", "A00010"};
         String[] educations = {"Diploma", "Associate", "Bachelor", "Master", "Doctorate"};
@@ -107,7 +107,7 @@ public class DataEntryController {
         Date[] checkDates = {Date.valueOf("2024-07-11"), Date.valueOf("2024-07-15")};
 
         int offset = 10;
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < (lastNames.length / 2); i++) {
             Petitioner tempPetitioner = new Petitioner();
             tempPetitioner.setId((i + 1));
             tempPetitioner.setLast(lastNames[i]);

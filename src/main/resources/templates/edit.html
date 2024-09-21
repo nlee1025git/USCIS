@@ -41,6 +41,26 @@
     td {
       padding: 8px;
     }
+
+    .container {
+      display: flex;
+      align-items: flex-start;
+    }
+
+    .worst {
+      margin-right: 0px;
+    }
+
+    .best {
+      margin-top: 365px;
+      margin-right: 0px;
+    }
+
+    .label {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
   </style>
 </head>
 
@@ -190,9 +210,40 @@
         <div id="job" class="color-box" th:style="'background-color: ' + ${job}"></div>
       </td>
       <td rowspan="6">
-        <div class="gradient-bar" ></div>
+        <div class="container">
+          <div class="label">
+            <div class="worst">Worst</div>
+            <div class="best">Best</div>
+          </div>
+          <div class="gradient-bar" ></div>
+<!--          <div class="gradient-bar" >Context: Worst is top color and Best is bottom color</div>-->
+        </div>
       </td>
     </tr>
+    <td colspan="3">
+      <div id="detail" class="job-detail">
+        <div>
+          <table>
+            <tr th:each="index : ${#numbers.sequence(0, backgroundChecks.size() - 1)}">
+              <div th:if="${beneficiaries[index].getLastName() == beneficiary.getLastName()}">
+                <td th:text="${beneficiaries[index].getLastName()}" th:style="'background-color: #fffed7; color: #000'"></td>
+                <td th:text="${backgroundChecks[index].jobTitleVerification}" th:style="'background-color: #fffed7'"></td>
+                <td th:style="'background-color: #fffed7'">
+                  <div class="color-box" th:style="'background-color: ' + ${colors[index]}"></div>
+                </td>
+              </div>
+              <div th:unless="${beneficiaries[index].getLastName() == beneficiary.getLastName()}">
+                <td th:text="${beneficiaries[index].getLastName()}"></td>
+                <td th:text="${backgroundChecks[index].jobTitleVerification}"></td>
+                <td>
+                  <div class="color-box" th:style="'background-color: ' + ${colors[index]}"></div>
+                </td>
+              </div>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </td>
     <tr>
       <td>Wage Compliance</td>
       <td th:text="${backgroundCheck.wageCompliance} + ' (15%)'"></td>
@@ -231,7 +282,7 @@
   </table>
 </div>
 
-<div id="detail" class="job-detail">
+<div id="detail2" class="job-detail">
   <div>
     <table>
       <tr th:each="index : ${#numbers.sequence(0, backgroundChecks.size() - 1)}">
