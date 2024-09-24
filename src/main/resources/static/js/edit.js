@@ -33,6 +33,10 @@
 //    })
 //})
 
+function loadPage(url) {
+    window.location.href = url;
+}
+
 function toggle(jobId) {
     var detail = document.getElementById('detail');
     if (detail.style.display === 'none' || detail.style.display === '') {

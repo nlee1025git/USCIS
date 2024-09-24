@@ -33,7 +33,7 @@ public class MainController {
 
     @GetMapping("/")
     public String mainScreen() {
-//        initData();
+        initData();
         return "mainScreen";
     }
 
@@ -69,8 +69,9 @@ public class MainController {
             beneficiary.setLastName(temp.get(index++));
             beneficiary.setFirstName(temp.get(index++));
             beneficiary.setMiddleName(temp.get(index++));
-            String beneficiaryDate = getDate(temp, index++);
-            beneficiary.setDOB(Date.valueOf(beneficiaryDate));
+//            String beneficiaryDate = getDate(temp, index++);
+//            beneficiary.setDOB(Date.valueOf(beneficiaryDate));
+            beneficiary.setDOB(Date.valueOf(temp.get(index++)));
             beneficiary.setGender(temp.get(index++));
             beneficiary.setCountry(temp.get(index++));
             beneficiary.setPassportNumber(temp.get(index++));
@@ -87,10 +88,12 @@ public class MainController {
             visaApplication.setApprovalDate(null);
             visaApplication.setJobTitle(temp.get(index++));
             visaApplication.setWage(temp.get(index++));
-            String fromDate = getDate(temp, index++);
-            visaApplication.setFromDate(Date.valueOf(fromDate));
-            String toDate = getDate(temp, index++);
-            visaApplication.setToDate(Date.valueOf(toDate));
+//            String fromDate = getDate(temp, index++);
+//            visaApplication.setFromDate(Date.valueOf(fromDate));
+            visaApplication.setFromDate(Date.valueOf(temp.get(index++)));
+//            String toDate = getDate(temp, index++);
+//            visaApplication.setToDate(Date.valueOf(toDate));
+            visaApplication.setToDate(Date.valueOf(temp.get(index++)));
             visaApplication.setVisaType(temp.get(index++));
 
             int range = 10;

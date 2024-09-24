@@ -42,6 +42,7 @@ public class ReadController {
             List<String> headers = new ArrayList<>();
 
             while ((line = br.readLine()) != null) {
+                line = line.substring(1, line.length() - 24);
                 String[] values = line.split(Character.toString(delimiter));
 
                 if (isFirstLine) {
@@ -60,7 +61,6 @@ public class ReadController {
         } catch (IOException e) {
             e.printStackTrace();;
         }
-//        System.out.println(data);
         return data;
     }
 }

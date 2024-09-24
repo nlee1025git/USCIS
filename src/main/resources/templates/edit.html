@@ -84,51 +84,51 @@
       <td colspan="2" style="text-align: center; margin: 4px"><strong>Petitioner Information</strong></td>
     </tr>
     <tr>
-      <td>Petitioner's Last Name</td>
+      <td>Last Name</td>
       <td th:text="${petitioner.last}"></td>
     </tr>
     <tr>
-      <td>Petitioner's First Name</td>
+      <td>First Name</td>
       <td th:text="${petitioner.first}"></td>
     </tr>
     <tr>
-      <td>Petitioner's Middle Name</td>
+      <td>Middle Name</td>
       <td th:text="${petitioner.middle}"></td>
     </tr>
     <tr>
-      <td>Petitioner's Company Name</td>
+      <td>Company Name</td>
       <td th:text="${petitioner.companyName}"></td>
     </tr>
     <tr>
-      <td>Petitioner's Address</td>
+      <td>Street Address</td>
       <td th:text="${petitioner.address}"></td>
     </tr>
     <tr>
-      <td>Petitioner's Number</td>
+      <td>Suite Number</td>
       <td th:text="${petitioner.number}"></td>
     </tr>
     <tr>
-      <td>Petitioner's City</td>
+      <td>City</td>
       <td th:text="${petitioner.city}"></td>
     </tr>
     <tr>
-      <td>Petitioner's State</td>
+      <td>State</td>
       <td th:text="${petitioner.state}"></td>
     </tr>
     <tr>
-      <td>Petitioner's Zipcode</td>
+      <td>Zipcode</td>
       <td th:text="${petitioner.zipcode}"></td>
     </tr>
     <tr>
-      <td>Petitioner's Phone Number</td>
+      <td>Phone Number</td>
       <td th:text="${petitioner.phoneNumber}"></td>
     </tr>
     <tr>
-      <td>Petitioner's Email</td>
+      <td>Email</td>
       <td th:text="${petitioner.email}"></td>
     </tr>
     <tr>
-      <td>Petitioner's FEIN</td>
+      <td>FEIN</td>
       <td th:text="${petitioner.fein}"></td>
     </tr>
   </table>
@@ -140,35 +140,35 @@
       <td colspan="2" style="text-align: center; margin: 4px"><strong>Beneficiary Information</strong></td>
     </tr>
     <tr>
-      <td>Beneficiary's Last Name</td>
+      <td>Last Name</td>
       <td th:text="${beneficiary.lastName}"></td>
     </tr>
     <tr>
-      <td>Beneficiary's First Name</td>
+      <td>First Name</td>
       <td th:text="${beneficiary.firstName}"></td>
     </tr>
     <tr>
-      <td>Beneficiary's Middle Name</td>
+      <td>Middle Name</td>
       <td th:text="${beneficiary.middleName}"></td>
     </tr>
     <tr>
-      <td>Beneficiary's Date of birth</td>
+      <td>Date of birth</td>
       <td th:text="${beneficiary.DOB}"></td>
     </tr>
     <tr>
-      <td>Beneficiary's Gender</td>
+      <td>Gender</td>
       <td th:text="${beneficiary.gender}"></td>
     </tr>
     <tr>
-      <td>Beneficiary's Country</td>
+      <td>Country</td>
       <td th:text="${beneficiary.country}"></td>
     </tr>
     <tr>
-      <td>Beneficiary's Passport Number</td>
+      <td>Passport Number</td>
       <td th:text="${beneficiary.passportNumber}"></td>
     </tr>
     <tr>
-      <td>Beneficiary's Education</td>
+      <td>Education</td>
       <td th:text="${beneficiary.education}"></td>
     </tr>
   </table>
@@ -195,6 +195,10 @@
       <td>To</td>
       <td th:text="${visaApplication.toDate}"></td>
     </tr>
+    <tr>
+      <td>Visa Type</td>
+      <td th:text="${visaApplication.visaType}"></td>
+    </tr>
   </table>
 </div><br><br>
 
@@ -216,10 +220,10 @@
             <div class="best">Best</div>
           </div>
           <div class="gradient-bar" ></div>
-<!--          <div class="gradient-bar" >Context: Worst is top color and Best is bottom color</div>-->
         </div>
       </td>
     </tr>
+    <div id="test" class="color-box" th:style="'background-color: #611111'" onclick="loadPage('/search?id=2')">test</div>
     <td colspan="3">
       <div id="detail" class="job-detail">
         <div>
@@ -229,14 +233,15 @@
                 <td th:text="${beneficiaries[index].getLastName()}" th:style="'background-color: #fffed7; color: #000'"></td>
                 <td th:text="${backgroundChecks[index].jobTitleVerification}" th:style="'background-color: #fffed7'"></td>
                 <td th:style="'background-color: #fffed7'">
-                  <div class="color-box" th:style="'background-color: ' + ${colors[index]}"></div>
-                </td>
+                  <div th:id="'job' + ${index}" class="color-box" th:style="'background-color: ' + ${colors[index]}" th:onclick="'loadPage(\'/search?id=\' + ' + (${index} + 1) +')'"></div>
+                  </td>
               </div>
               <div th:unless="${beneficiaries[index].getLastName() == beneficiary.getLastName()}">
                 <td th:text="${beneficiaries[index].getLastName()}"></td>
                 <td th:text="${backgroundChecks[index].jobTitleVerification}"></td>
                 <td>
-                  <div class="color-box" th:style="'background-color: ' + ${colors[index]}"></div>
+                  <div th:id="'job' + ${index}" class="color-box" th:style="'background-color: ' + ${colors[index]}" th:onclick="'loadPage(\'/search?id=\' + ' + (${index} + 1) +')'"></div>
+<!--                  <div th:id="'job' + ${index}" class="color-box" th:style="'background-color: ' + ${colors[index]}" th:onclick="'loadPage(\'/search?id=\' + ' + (${index} + 1) +')'" th:text="'test' + (${index} + 1)"></div>-->
                 </td>
               </div>
             </tr>
