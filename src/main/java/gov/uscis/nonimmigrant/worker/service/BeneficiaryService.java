@@ -23,7 +23,21 @@ public class BeneficiaryService {
 
     public void addData(Beneficiary beneficiary) {
         validateDuplicateId(beneficiary);
+//        validateDuplicateName(beneficiary);
+        beneficiaryRepository.findByName(beneficiary.getLastName(), beneficiary.getFirstName(), beneficiary.getMiddleName())
+                .ifPresentOrElse(m -> {
+                    System.out.println("a");
+                }, () -> {
+                    System.out.println("e");
+                });
         beneficiaryRepository.save(beneficiary);
+    }
+
+    private void validateDuplicateName(Beneficiary beneficiary) {
+        beneficiaryRepository.findByName(beneficiary.getLastName(), beneficiary.getFirstName(), beneficiary.getMiddleName())
+                .ifPresent(m -> {
+                    throw new IllegalStateException("Beneficiary name already exists");
+                });
     }
 
     public void deleteData(Beneficiary beneficiary) {
@@ -34,7 +48,7 @@ public class BeneficiaryService {
     private void validateDuplicateId(Beneficiary beneficiary) {
         beneficiaryRepository.findById(beneficiary.getId())
                 .ifPresent(m -> {
-                    throw new IllegalStateException("Beneficiary already exists");
+                    throw new IllegalStateException("Beneficiary ID already exists");
                 });
     }
 

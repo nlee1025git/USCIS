@@ -231,15 +231,16 @@ public class ReviewController {
         }
         model.addAttribute("combined", combined);
         model.addAttribute("colors", colors);
-//        model.addAttribute("backgroundChecks", backgroundChecks);
-//        model.addAttribute("beneficiaries", beneficiaries);
-        ReadController readController = new ReadController();
-        List<List<String>> data = readController.getData();
 
-//        System.out.println("a");
-//        System.out.println(data);
-//        System.out.println(data.toString());
-//        System.out.println(colorToHex(jetColormap(backgroundCheck.getJobTitleVerification() * 0.1f)));
+//        ReadController readController = new ReadController();
+//        List<List<String>> data = readController.getData();
+
+        List<List<Integer>> data = List.of(
+                List.of(1, 2, 3),
+                List.of(4, 5, 6),
+                List.of(7, 8, 9)
+        );
+        model.addAttribute("data", data);
 
         model.addAttribute("colorMap", colorMap);
         model.addAttribute("colorList", colorList);

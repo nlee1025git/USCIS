@@ -33,7 +33,7 @@ public class MainController {
 
     @GetMapping("/")
     public String mainScreen() {
-        initData();
+//        initData();
         return "mainScreen";
     }
 

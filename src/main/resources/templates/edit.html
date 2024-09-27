@@ -22,8 +22,8 @@
     }
 
     .color-box {
-      width: 50px;
-      height: 50px;
+      width: 35px;
+      height: 35px;
       display: inline-block;
       border: 1px solid #000;
     }
@@ -39,7 +39,7 @@
     }
 
     td {
-      padding: 8px;
+      padding: 7px;
     }
 
     .container {
@@ -60,6 +60,35 @@
       display: flex;
       flex-direction: column;
       justify-content: space-between;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 100px);
+      gap: 5px;
+    }
+
+    .box {
+      width: 100px;
+      height: 100px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 1.5em;
+      color: white;
+    }
+
+    .svg {
+      border: 1px solid black;
+    }
+
+    .dim {
+      width: 90%;
+      height: 90%;
+    }
+
+    .circle:hover {
+        opacity: 0.8;
     }
   </style>
 </head>
@@ -205,13 +234,20 @@
 <div style="text-align: center">
   <table>
     <tr>
-      <td colspan="4" style="text-align: center; margin: 4px"><strong>Background Check Score</strong></td>
+      <td colspan="5" style="text-align: center; margin: 4px"><strong>Background Check Score</strong></td>
     </tr>
     <tr>
       <td>Job Title Verification</td>
       <td th:text="${backgroundCheck.jobTitleVerification} + ' (20%)'"></td>
       <td>
         <div id="job" class="color-box" th:style="'background-color: ' + ${job}"></div>
+      </td>
+      <td>
+        <svg class="dim">
+          <g th:each="p, iterStat : ${colors}">
+            <circle class="circle" th:attr="cx=${5 + (iterStat.index % 10) * 15}, cy=${100 - (iterStat.index / 10 * 15)}, r='5', fill=${p}" th:onclick="'loadPage(\'/search?id=\' + ' + (${iterStat.index} + 1) +')'"></circle>
+          </g>
+        </svg>
       </td>
       <td rowspan="6">
         <div class="container">
@@ -223,8 +259,7 @@
         </div>
       </td>
     </tr>
-    <div id="test" class="color-box" th:style="'background-color: #611111'" onclick="loadPage('/search?id=2')">test</div>
-    <td colspan="3">
+    <td colspan="4">
       <div id="detail" class="job-detail">
         <div>
           <table>
@@ -241,7 +276,6 @@
                 <td th:text="${backgroundChecks[index].jobTitleVerification}"></td>
                 <td>
                   <div th:id="'job' + ${index}" class="color-box" th:style="'background-color: ' + ${colors[index]}" th:onclick="'loadPage(\'/search?id=\' + ' + (${index} + 1) +')'"></div>
-<!--                  <div th:id="'job' + ${index}" class="color-box" th:style="'background-color: ' + ${colors[index]}" th:onclick="'loadPage(\'/search?id=\' + ' + (${index} + 1) +')'" th:text="'test' + (${index} + 1)"></div>-->
                 </td>
               </div>
             </tr>
@@ -255,6 +289,7 @@
       <td>
         <div class="color-box" th:style="'background-color: ' + ${wage}"></div>
       </td>
+      <td></td>
     </tr>
     <tr>
       <td>Beneficiary Qualification</td>
@@ -262,6 +297,7 @@
       <td>
         <div class="color-box" th:style="'background-color: ' + ${qualification}"></div>
       </td>
+      <td></td>
     </tr>
     <tr>
       <td>Criminal Record</td>
@@ -269,6 +305,7 @@
       <td>
         <div class="color-box" th:style="'background-color: ' + ${record}"></div>
       </td>
+      <td></td>
     </tr>
     <tr>
       <td>Total Normalized Score</td>
@@ -276,6 +313,7 @@
       <td>
         <div class="color-box" th:style="'background-color: ' + ${total}"></div>
       </td>
+      <td></td>
     </tr>
     <tr>
       <td>Minimum Normalized Score</td>
@@ -283,9 +321,18 @@
       <td>
         <div class="color-box" th:style="'background-color: ' + ${minimum}"></div>
       </td>
+      <td></td>
     </tr>
   </table>
 </div>
+
+<!--<div class="grid" th:each="row : ${data}" >-->
+<!--  <div th:each="value : ${row}"-->
+<!--       th:class="box"-->
+<!--       th:style="'background-color:' + (${value} < 3 ? 'red' : (${value} < 6 ? 'yellow' : 'green'))">-->
+<!--    <span th:text="${value}"></span>-->
+<!--  </div>-->
+<!--</div>-->
 
 <div id="detail2" class="job-detail">
   <div>
