@@ -90,6 +90,10 @@
     .circle:hover {
         opacity: 0.8;
     }
+
+    .hidden {
+      display: none;
+    }
   </style>
 </head>
 
@@ -234,21 +238,38 @@
 <div style="text-align: center">
   <table>
     <tr>
-      <td colspan="5" style="text-align: center; margin: 4px"><strong>Background Check Score</strong></td>
+      <td colspan="6" style="text-align: center; margin: 4px"><strong>Background Check Score</strong></td>
     </tr>
+
     <tr>
       <td>Job Title Verification</td>
+
       <td th:text="${backgroundCheck.jobTitleVerification} + ' (20%)'"></td>
+
       <td>
         <div id="job" class="color-box" th:style="'background-color: ' + ${job}"></div>
       </td>
+
       <td>
-        <svg class="dim">
-          <g th:each="p, iterStat : ${colors}">
-            <circle class="circle" th:attr="cx=${5 + (iterStat.index % 10) * 15}, cy=${100 - (iterStat.index / 10 * 15)}, r='5', fill=${p}" th:onclick="'loadPage(\'/search?id=\' + ' + (${iterStat.index} + 1) +')'"></circle>
-          </g>
-        </svg>
+        <div th:with="margin = 5, size = 10, pad = 6">
+          <svg th:attr="height=${(margin * 2) + (rawJob.size() / size * pad)}">
+            <g th:each="p, iterStat : ${rawJob}">
+              <circle class="circle" th:attr="cx=${margin + (iterStat.index % size) * pad}, cy=${margin + (iterStat.index / size * pad)}, r='3', fill=${p}" th:onclick="'loadPage(\'/search?id=\' + ' + (${iterStat.index} + 1) +')'"></circle>
+            </g>
+          </svg>
+        </div>
       </td>
+
+      <td>
+        <div>
+          <svg th:attr="height=${(normWage.size() > 0) ? ((5 * 2) + (normWage.size() / 10 * 6)) : '100px'}">
+            <g th:each="p, iterStat : ${normWage}">
+              <circle class="circle" th:attr="cx=${5 + (iterStat.index % 10) * 6}, cy=${5 + (iterStat.index / 10 * 6)}, r='3', fill=${p}" th:onclick="'loadPage(\'/search?id=\' + ' + (${iterStat.index} + 1) +')'"></circle>
+            </g>
+          </svg>
+        </div>
+      </td>
+
       <td rowspan="6">
         <div class="container">
           <div class="label">
@@ -259,62 +280,219 @@
         </div>
       </td>
     </tr>
-    <td colspan="4">
-      <div id="detail" class="job-detail">
-        <div>
-          <table>
-            <tr th:each="index : ${#numbers.sequence(0, backgroundChecks.size() - 1)}">
-              <div th:if="${beneficiaries[index].getLastName() == beneficiary.getLastName()}">
-                <td th:text="${beneficiaries[index].getLastName()}" th:style="'background-color: #fffed7; color: #000'"></td>
-                <td th:text="${backgroundChecks[index].jobTitleVerification}" th:style="'background-color: #fffed7'"></td>
-                <td th:style="'background-color: #fffed7'">
-                  <div th:id="'job' + ${index}" class="color-box" th:style="'background-color: ' + ${colors[index]}" th:onclick="'loadPage(\'/search?id=\' + ' + (${index} + 1) +')'"></div>
-                  </td>
-              </div>
-              <div th:unless="${beneficiaries[index].getLastName() == beneficiary.getLastName()}">
-                <td th:text="${beneficiaries[index].getLastName()}"></td>
-                <td th:text="${backgroundChecks[index].jobTitleVerification}"></td>
-                <td>
-                  <div th:id="'job' + ${index}" class="color-box" th:style="'background-color: ' + ${colors[index]}" th:onclick="'loadPage(\'/search?id=\' + ' + (${index} + 1) +')'"></div>
-                </td>
-              </div>
-            </tr>
-          </table>
-        </div>
-      </div>
-    </td>
+
+    <tr id="jobDB" style="display: none">
+      <td colspan="4">
+        <table>
+          <tr th:each="index : ${#numbers.sequence(0, backgroundChecks.size() - 1)}">
+            <div th:if="${beneficiaries[index].getLastName() == beneficiary.getLastName()}">
+              <td th:text="${beneficiaries[index].getLastName()}" th:style="'background-color: #fffed7; color: #000'"></td>
+              <td th:text="${backgroundChecks[index].jobTitleVerification}" th:style="'background-color: #fffed7'"></td>
+              <td th:style="'background-color: #fffed7'">
+                <div th:id="'job' + ${index}" class="color-box" th:style="'background-color: ' + ${jobColors[index]}" th:onclick="'loadPage(\'/search?id=\' + ' + (${index} + 1) +')'"></div>
+              </td>
+            </div>
+            <div th:unless="${beneficiaries[index].getLastName() == beneficiary.getLastName()}">
+              <td th:text="${beneficiaries[index].getLastName()}"></td>
+              <td th:text="${backgroundChecks[index].jobTitleVerification}"></td>
+              <td>
+                <div th:id="'job' + ${index}" class="color-box" th:style="'background-color: ' + ${jobColors[index]}" th:onclick="'loadPage(\'/search?id=\' + ' + (${index} + 1) +')'"></div>
+              </td>
+            </div>
+          </tr>
+        </table>
+      </td>
+    </tr>
+
     <tr>
       <td>Wage Compliance</td>
+
       <td th:text="${backgroundCheck.wageCompliance} + ' (15%)'"></td>
+
       <td>
-        <div class="color-box" th:style="'background-color: ' + ${wage}"></div>
+        <div id="wage" class="color-box" th:style="'background-color: ' + ${wage}"></div>
       </td>
-      <td></td>
+
+      <td>
+        <div>
+          <svg>
+            <g th:each="p, iterStat : ${rawWage}">
+              <circle class="circle" th:attr="cx=${5 + (iterStat.index % 50) * 6}, cy=${5 + (iterStat.index / 50 * 6)}, r='3', fill=${p}" th:onclick="'loadPage(\'/search?id=\' + ' + (${iterStat.index} + 1) +')'"></circle>
+            </g>
+          </svg>
+        </div>
+      </td>
+
+      <td>
+        <div>
+          <svg>
+            <g th:each="p, iterStat : ${normWage}">
+              <circle class="circle" th:attr="cx=${5 + (iterStat.index % 50) * 6}, cy=${5 + (iterStat.index / 50 * 6)}, r='3', fill=${p}" th:onclick="'loadPage(\'/search?id=\' + ' + (${iterStat.index} + 1) +')'"></circle>
+            </g>
+          </svg>
+        </div>
+      </td>
     </tr>
+
+    <tr id="wageDB" style="display: none">
+      <td colspan="4">
+        <table>
+          <tr th:each="index : ${#numbers.sequence(0, backgroundChecks.size() - 1)}">
+            <div th:if="${beneficiaries[index].getLastName() == beneficiary.getLastName()}">
+              <td th:text="${beneficiaries[index].getLastName()}" th:style="'background-color: #fffed7; color: #000'"></td>
+              <td th:text="${backgroundChecks[index].wageCompliance}" th:style="'background-color: #fffed7'"></td>
+              <td th:style="'background-color: #fffed7'">
+                <div th:id="'wage' + ${index}" class="color-box" th:style="'background-color: ' + ${wageColors[index]}" th:onclick="'loadPage(\'/search?id=\' + ' + (${index} + 1) +')'"></div>
+              </td>
+            </div>
+            <div th:unless="${beneficiaries[index].getLastName() == beneficiary.getLastName()}">
+              <td th:text="${beneficiaries[index].getLastName()}"></td>
+              <td th:text="${backgroundChecks[index].wageCompliance}"></td>
+              <td>
+                <div th:id="'wage' + ${index}" class="color-box" th:style="'background-color: ' + ${wageColors[index]}" th:onclick="'loadPage(\'/search?id=\' + ' + (${index} + 1) +')'"></div>
+              </td>
+            </div>
+          </tr>
+        </table>
+      </td>
+    </tr>
+
     <tr>
       <td>Beneficiary Qualification</td>
+
       <td th:text="${backgroundCheck.beneficiaryQualification} + ' (30%)'"></td>
+
       <td>
-        <div class="color-box" th:style="'background-color: ' + ${qualification}"></div>
+        <div id="qualification" class="color-box" th:style="'background-color: ' + ${qualification}"></div>
       </td>
-      <td></td>
+
+      <td>
+        <div>
+          <svg>
+            <g th:each="p, iterStat : ${rawQual}">
+              <circle class="circle" th:attr="cx=${5 + (iterStat.index % 25) * 6}, cy=${5 + (iterStat.index / 25 * 6)}, r='3', fill=${p}" th:onclick="'loadPage(\'/search?id=\' + ' + (${iterStat.index} + 1) +')'"></circle>
+            </g>
+          </svg>
+        </div>
+      </td>
+
+      <td>
+        <div>
+          <svg>
+            <g th:each="p, iterStat : ${normQual}">
+              <circle class="circle" th:attr="cx=${5 + (iterStat.index % 25) * 6}, cy=${5 + (iterStat.index / 25 * 6)}, r='3', fill=${p}" th:onclick="'loadPage(\'/search?id=\' + ' + (${iterStat.index} + 1) +')'"></circle>
+            </g>
+          </svg>
+        </div>
+      </td>
     </tr>
+
+    <tr id="qualificationDB" style="display: none">
+      <td colspan="4">
+        <table>
+          <tr th:each="index : ${#numbers.sequence(0, backgroundChecks.size() - 1)}">
+            <div th:if="${beneficiaries[index].getLastName() == beneficiary.getLastName()}">
+              <td th:text="${beneficiaries[index].getLastName()}" th:style="'background-color: #fffed7; color: #000'"></td>
+                            <td th:text="${backgroundChecks[index].beneficiaryQualification}" th:style="'background-color: #fffed7'"></td>
+                            <td th:style="'background-color: #fffed7'">
+                              <div th:id="'qualification' + ${index}" class="color-box" th:style="'background-color: ' + ${qualificationColors[index]}" th:onclick="'loadPage(\'/search?id=\' + ' + (${index} + 1) +')'"></div>
+                            </td>
+            </div>
+            <div th:unless="${beneficiaries[index].getLastName() == beneficiary.getLastName()}">
+              <td th:text="${beneficiaries[index].getLastName()}"></td>
+                            <td th:text="${backgroundChecks[index].beneficiaryQualification}"></td>
+                            <td>
+                              <div th:id="'qualification' + ${index}" class="color-box" th:style="'background-color: ' + ${qualificationColors[index]}" th:onclick="'loadPage(\'/search?id=\' + ' + (${index} + 1) +')'"></div>
+                            </td>
+            </div>
+          </tr>
+        </table>
+      </td>
+    </tr>
+
     <tr>
       <td>Criminal Record</td>
+
       <td th:text="${backgroundCheck.criminalRecord} + ' (35%)'"></td>
+
       <td>
-        <div class="color-box" th:style="'background-color: ' + ${record}"></div>
+        <div id="record" class="color-box" th:style="'background-color: ' + ${record}"></div>
       </td>
-      <td></td>
+
+      <td>
+        <div>
+          <svg>
+            <g th:each="p, iterStat : ${rawRec}">
+              <circle class="circle" th:attr="cx=${5 + (iterStat.index % 25) * 6}, cy=${5 + (iterStat.index / 25 * 6)}, r='3', fill=${p}" th:onclick="'loadPage(\'/search?id=\' + ' + (${iterStat.index} + 1) +')'"></circle>
+            </g>
+          </svg>
+        </div>
+      </td>
+
+      <td>
+        <div>
+          <svg>
+            <g th:each="p, iterStat : ${normRec}">
+              <circle class="circle" th:attr="cx=${5 + (iterStat.index % 25) * 6}, cy=${5 + (iterStat.index / 25 * 6)}, r='3', fill=${p}" th:onclick="'loadPage(\'/search?id=\' + ' + (${iterStat.index} + 1) +')'"></circle>
+            </g>
+          </svg>
+        </div>
+      </td>
     </tr>
+
+    <tr id="recordDB" style="display: none">
+      <td colspan="4">
+        <table>
+          <tr th:each="index : ${#numbers.sequence(0, backgroundChecks.size() - 1)}">
+            <div th:if="${beneficiaries[index].getLastName() == beneficiary.getLastName()}">
+              <td th:text="${beneficiaries[index].getLastName()}" th:style="'background-color: #fffed7; color: #000'"></td>
+                            <td th:text="${backgroundChecks[index].criminalRecord}" th:style="'background-color: #fffed7'"></td>
+                            <td th:style="'background-color: #fffed7'">
+                              <div th:id="'job' + ${index}" class="color-box" th:style="'background-color: ' + ${recordColors[index]}" th:onclick="'loadPage(\'/search?id=\' + ' + (${index} + 1) +')'"></div>
+                            </td>
+            </div>
+            <div th:unless="${beneficiaries[index].getLastName() == beneficiary.getLastName()}">
+              <td th:text="${beneficiaries[index].getLastName()}"></td>
+                            <td th:text="${backgroundChecks[index].criminalRecord}"></td>
+                            <td>
+                              <div th:id="'job' + ${index}" class="color-box" th:style="'background-color: ' + ${recordColors[index]}" th:onclick="'loadPage(\'/search?id=\' + ' + (${index} + 1) +')'"></div>
+                            </td>
+            </div>
+          </tr>
+        </table>
+      </td>
+    </tr>
+
     <tr>
       <td>Total Normalized Score</td>
+
       <td th:text="${normalize} + ' / 10'"></td>
+
       <td>
         <div class="color-box" th:style="'background-color: ' + ${total}"></div>
       </td>
-      <td></td>
+
+      <td>
+        <div>
+          <svg>
+            <g th:each="p, iterStat : ${rawTotal}">
+              <circle class="circle" th:attr="cx=${5 + (iterStat.index % 25) * 6}, cy=${5 + (iterStat.index / 25 * 6)}, r='3', fill=${p}" th:onclick="'loadPage(\'/search?id=\' + ' + (${iterStat.index} + 1) +')'"></circle>
+            </g>
+          </svg>
+        </div>
+      </td>
+
+      <td>
+        <div>
+          <svg>
+            <g th:each="p, iterStat : ${normTotal}">
+              <circle class="circle" th:attr="cx=${5 + (iterStat.index % 25) * 6}, cy=${5 + (iterStat.index / 25 * 6)}, r='3', fill=${p}" th:onclick="'loadPage(\'/search?id=\' + ' + (${iterStat.index} + 1) +')'"></circle>
+            </g>
+          </svg>
+        </div>
+      </td>
     </tr>
+
     <tr>
       <td>Minimum Normalized Score</td>
       <td th:text="'2.5 / 10'"></td>
@@ -324,28 +502,6 @@
       <td></td>
     </tr>
   </table>
-</div>
-
-<!--<div class="grid" th:each="row : ${data}" >-->
-<!--  <div th:each="value : ${row}"-->
-<!--       th:class="box"-->
-<!--       th:style="'background-color:' + (${value} < 3 ? 'red' : (${value} < 6 ? 'yellow' : 'green'))">-->
-<!--    <span th:text="${value}"></span>-->
-<!--  </div>-->
-<!--</div>-->
-
-<div id="detail2" class="job-detail">
-  <div>
-    <table>
-      <tr th:each="index : ${#numbers.sequence(0, backgroundChecks.size() - 1)}">
-        <td th:text="${beneficiaries[index].getLastName()}"></td>
-        <td th:text="${backgroundChecks[index].jobTitleVerification}"></td>
-        <td>
-          <div class="color-box" th:style="'background-color: ' + ${colors[index]}"></div>
-        </td>
-      </tr>
-    </table>
-  </div>
 </div>
 
 <div style="text-align: center">
@@ -374,6 +530,7 @@
   <a href="/"><button type="submit">Main Menu</button></a>
 </div><br>
 
-<script src="/js/edit.js"></script>
+<script src="/js/edit.js">
+</script>
 </body>
 </html>

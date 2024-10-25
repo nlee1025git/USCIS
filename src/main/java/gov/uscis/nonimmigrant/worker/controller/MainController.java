@@ -71,7 +71,7 @@ public class MainController {
             beneficiary.setMiddleName(temp.get(index++));
 //            String beneficiaryDate = getDate(temp, index++);
 //            beneficiary.setDOB(Date.valueOf(beneficiaryDate));
-            beneficiary.setDOB(Date.valueOf(temp.get(index++)));
+            beneficiary.setDOB(Date.valueOf("" + temp.get(index++)));
             beneficiary.setGender(temp.get(index++));
             beneficiary.setCountry(temp.get(index++));
             beneficiary.setPassportNumber(temp.get(index++));
@@ -90,10 +90,10 @@ public class MainController {
             visaApplication.setWage(temp.get(index++));
 //            String fromDate = getDate(temp, index++);
 //            visaApplication.setFromDate(Date.valueOf(fromDate));
-            visaApplication.setFromDate(Date.valueOf(temp.get(index++)));
+            visaApplication.setFromDate(Date.valueOf("" + temp.get(index++)));
 //            String toDate = getDate(temp, index++);
 //            visaApplication.setToDate(Date.valueOf(toDate));
-            visaApplication.setToDate(Date.valueOf(temp.get(index++)));
+            visaApplication.setToDate(Date.valueOf("" + temp.get(index++)));
             visaApplication.setVisaType(temp.get(index++));
 
             int range = 10;

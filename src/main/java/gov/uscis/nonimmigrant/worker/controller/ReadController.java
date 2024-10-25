@@ -22,7 +22,7 @@ public class ReadController {
     }
 
     public List<List<String>> getExcel() {
-        String fileName = "/Users/kyu/Desktop/Data.xlsx";
+        String fileName = "/Users/kyu/Desktop/spring/o_out.xlsx";
 
         try (FileInputStream fis = new FileInputStream(fileName)) {
         } catch (IOException e) {
@@ -32,7 +32,7 @@ public class ReadController {
     }
 
     public List<List<String>> getData() {
-        String fileName = "/Users/kyu/Desktop/Data.csv";
+        String fileName = "/Users/kyu/Desktop/spring/o_out_string.csv";
 //        String fileName = "/Users/kyu/Desktop/csv1.csv";
         char delimiter = ',';
 
@@ -41,6 +41,9 @@ public class ReadController {
             boolean isFirstLine = true;
             List<String> headers = new ArrayList<>();
 
+//            int count = 10;
+//            while (count != 0 && (line = br.readLine()) != null) {
+//                count--;
             while ((line = br.readLine()) != null) {
                 line = line.substring(1, line.length() - 24);
                 String[] values = line.split(Character.toString(delimiter));

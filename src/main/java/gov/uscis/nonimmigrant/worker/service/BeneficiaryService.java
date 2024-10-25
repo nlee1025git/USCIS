@@ -26,9 +26,9 @@ public class BeneficiaryService {
 //        validateDuplicateName(beneficiary);
         beneficiaryRepository.findByName(beneficiary.getLastName(), beneficiary.getFirstName(), beneficiary.getMiddleName())
                 .ifPresentOrElse(m -> {
-                    System.out.println("a");
+                    System.out.println("already exists");
                 }, () -> {
-                    System.out.println("e");
+                    System.out.println("not exists");
                 });
         beneficiaryRepository.save(beneficiary);
     }

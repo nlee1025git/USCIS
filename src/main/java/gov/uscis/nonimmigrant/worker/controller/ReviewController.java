@@ -219,21 +219,79 @@ public class ReviewController {
         List<Beneficiary> beneficiaries = beneficiaryService.findBeneficiaries();
         model.addAttribute("backgroundChecks", backgroundChecks);
         model.addAttribute("beneficiaries", beneficiaries);
+
+        int job = 0;
+        int wage = 1;
+        int qualification = 2;
+        int record = 3;
         List<Map<Object, Object>> combined = new ArrayList<>();
-        List<Object> colors = new ArrayList<>();
-        for (int i = 0; i < backgroundChecks.size(); i++) {
-            colors.add(colorToHex(jetColormap(backgroundChecks.get(i).getJobTitleVerification() * 0.1f)));
-        }
         for (int i = 0; i < backgroundChecks.size(); i++) {
             if (beneficiaries.get(i).getId() != beneficiaryId) {
                 combined.add(Map.of("beneficiaries", beneficiaries.get(i), "backgroundChecks", backgroundChecks.get(i)));
             }
         }
         model.addAttribute("combined", combined);
-        model.addAttribute("colors", colors);
 
-//        ReadController readController = new ReadController();
-//        List<List<String>> data = readController.getData();
+        List<Object> colors = getColors(backgroundChecks, job);
+        model.addAttribute("jobColors", colors);
+        colors = getColors(backgroundChecks, wage);
+        model.addAttribute("wageColors", colors);
+        colors = getColors(backgroundChecks, qualification);
+        model.addAttribute("qualificationColors", colors);
+        colors = getColors(backgroundChecks, record);
+        model.addAttribute("recordColors", colors);
+
+//        List<Integer> sortedValues = sortValues(backgroundChecks, job);
+//        model.addAttribute("colors2", sortedValues);
+//        List<Object> colors3 = new ArrayList<>();
+//        for (int i = 0; i < backgroundChecks.size(); i++) {
+//            colors3.add(colorToHex(jetColormap(sortedValues.get(i) * 0.1f)));
+//        }
+//        model.addAttribute("colors3", colors3);
+
+        List<Object> rawJob = rawData(model, backgroundChecks, job);
+        model.addAttribute("rawJob", rawJob);
+        List<Integer> sortedValues = sortValues(backgroundChecks, job);
+        List<Object> normJob = normData(sortedValues);
+        model.addAttribute("normJob", normJob);
+
+        List<Object> rawWage = rawData(model, backgroundChecks, wage);
+        model.addAttribute("rawWage", rawWage);
+        sortedValues = sortValues(backgroundChecks, wage);
+        List<Object> normWage = normData(sortedValues);
+        model.addAttribute("normWage", normWage);
+
+        List<Object> rawQual = rawData(model, backgroundChecks, qualification);
+        model.addAttribute("rawQual", rawQual);
+        sortedValues = sortValues(backgroundChecks, qualification);
+        List<Object> normQual = normData(sortedValues);
+        model.addAttribute("normQual", normQual);
+
+        List<Object> rawRec = rawData(model, backgroundChecks, record);
+        model.addAttribute("rawRec", rawRec);
+        sortedValues = sortValues(backgroundChecks, record);
+        List<Object> normRec = normData(sortedValues);
+        model.addAttribute("normRec", normRec);
+
+
+        List<Object> rawTotal = new ArrayList<>();
+        List<Double> sorted = new ArrayList<>();
+        for (int i = 0; i < backgroundCheckList.size(); i++) {
+            double total = backgroundCheckList.get(i).getJobTitleVerification() * weights[0]
+                            + backgroundChecks.get(i).getWageCompliance() * weights[1]
+                            + backgroundChecks.get(i).getBeneficiaryQualification() * weights[2]
+                            + backgroundChecks.get(i).getCriminalRecord() * weights[3];
+            total = Math.round(total * 100) / 100.0;
+            rawTotal.add(colorToHex(jetColormap(total * 0.1)));
+            sorted.add(total);
+        }
+        model.addAttribute("rawTotal", rawTotal);
+        Collections.sort(sorted);
+        List<Object> normTotal = new ArrayList<>();
+        for (Double i : sorted) {
+            normTotal.add(colorToHex(jetColormap(i * 0.1f)));
+        }
+        model.addAttribute("normTotal", normTotal);
 
         List<List<Integer>> data = List.of(
                 List.of(1, 2, 3),
@@ -248,11 +306,86 @@ public class ReviewController {
         model.addAttribute("wage", colorToHex(jetColormap(backgroundCheck.getWageCompliance() * 0.1f)));
         model.addAttribute("qualification", colorToHex(jetColormap(backgroundCheck.getBeneficiaryQualification() * 0.1f)));
         model.addAttribute("record", colorToHex(jetColormap(backgroundCheck.getCriminalRecord() * 0.1f)));
-        model.addAttribute("total", colorToHex(jetColormap((float) normalize * 0.1f)));
+        model.addAttribute("total", colorToHex(jetColormap((double) normalize * 0.1f)));
         model.addAttribute("minimum", colorToHex(jetColormap(0.25f)));
     }
 
-    public static Color jetColormap(float value) {
+    private static List<Object> getColors(List<BackgroundCheck> backgroundChecks, int value) {
+        List<Object> colors = new ArrayList<>();
+        if (value == 0) {
+            for (int i = 0; i < backgroundChecks.size(); i++) {
+                colors.add(colorToHex(jetColormap(backgroundChecks.get(i).getJobTitleVerification() * 0.1f)));
+            }
+        } else if (value == 1) {
+            for (int i = 0; i < backgroundChecks.size(); i++) {
+                colors.add(colorToHex(jetColormap(backgroundChecks.get(i).getWageCompliance() * 0.1f)));
+            }
+        } else if (value == 2) {
+            for (int i = 0; i < backgroundChecks.size(); i++) {
+                colors.add(colorToHex(jetColormap(backgroundChecks.get(i).getBeneficiaryQualification() * 0.1f)));
+            }
+        } else {
+            for (int i = 0; i < backgroundChecks.size(); i++) {
+                colors.add(colorToHex(jetColormap(backgroundChecks.get(i).getCriminalRecord() * 0.1f)));
+            }
+        }
+        return colors;
+    }
+
+    private static List<Object> normData(List<Integer> sortedValues) {
+        List<Object> wages = new ArrayList<>();
+        for (Integer i : sortedValues) {
+            wages.add(colorToHex(jetColormap(i * 0.1f)));
+        }
+        return wages;
+    }
+
+    private static List<Object> rawData(Model model, List<BackgroundCheck> backgroundChecks, int value) {
+        List<Object> rawList = new ArrayList<>();
+        if (value == 0) {
+            for (int i = 0; i < backgroundChecks.size(); i++) {
+                rawList.add(colorToHex(jetColormap(backgroundChecks.get(i).getJobTitleVerification() * 0.1f)));
+            }
+        } else if (value == 1) {
+            for (int i = 0; i < backgroundChecks.size(); i++) {
+                rawList.add(colorToHex(jetColormap(backgroundChecks.get(i).getWageCompliance() * 0.1f)));
+            }
+        } else if (value == 2) {
+            for (int i = 0; i < backgroundChecks.size(); i++) {
+                rawList.add(colorToHex(jetColormap(backgroundChecks.get(i).getBeneficiaryQualification() * 0.1f)));
+            }
+        } else {
+            for (int i = 0; i < backgroundChecks.size(); i++) {
+                rawList.add(colorToHex(jetColormap(backgroundChecks.get(i).getCriminalRecord() * 0.1f)));
+            }
+        }
+        return rawList;
+    }
+
+    private static List<Integer> sortValues(List<BackgroundCheck> backgroundChecks, int value) {
+        List<Integer> sortedList = new ArrayList<>();
+        if (value == 0) {
+            for (int i = 0; i < backgroundChecks.size(); i++) {
+                sortedList.add(backgroundChecks.get(i).getJobTitleVerification());
+            }
+        } else if (value == 1) {
+            for (int i = 0; i < backgroundChecks.size(); i++) {
+                sortedList.add(backgroundChecks.get(i).getWageCompliance());
+            }
+        } else if (value == 2) {
+            for (int i = 0; i < backgroundChecks.size(); i++) {
+                sortedList.add(backgroundChecks.get(i).getBeneficiaryQualification());
+            }
+        } else if (value == 3) {
+            for (int i = 0; i < backgroundChecks.size(); i++) {
+                sortedList.add(backgroundChecks.get(i).getCriminalRecord());
+            }
+        }
+        Collections.sort(sortedList);
+        return sortedList;
+    }
+
+    public static Color jetColormap(double value) {
         value = Math.max(0, Math.min(value, 1));
 
         if (value <= 0.11) {
